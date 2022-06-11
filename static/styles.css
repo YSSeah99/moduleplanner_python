@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #262C33;
+    position: relative;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+header {
+    padding: 10px 0;
+    text-align: left;
+    background: #39424D;
+    height: 5%;
+    position: relative;
+}
+
+.header img {
+    padding-left: 2%;
+    width: 15%;
+    object-fit: cover;
+    display: 'inline-block';
+}
+
+.topnav {
+    padding-right: 2%;
+    float: right;
+    align-items: center;
+    margin-top: 2%;
+    overflow: hidden;
+}
+
+.topnav .link {
+    display: inline-block;
+    align-items: center;
+    padding: 0 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    text-decoration: none; 
+}    
+
+a:hover {
+    text-decoration: underline;
+}
+
+.icon {
+    display: none;
+}
+
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+    .topnav a:not(:first-child) {display: none;}
+    .link {display: none;}
+    .topnav a.icon {
+      float: right;
+      display: block;
+      padding-right: 1rem;
+    }
+  }
+
+@media screen and (max-width: 600px) {
+    .topnav.responsive {position: relative;}
+    .topnav.responsive a.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .link.responsive {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+.footer {
+    text-align: left;
+    background: #292933;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    margin: auto;
+}
+
+.bottomnav {
+    padding-top: 2%;
+    font-size: 1.3rem;
+    margin-left: 5%;
+}
+
+.bottomnav .link {
+    display: inline-block;
+    color: #ffffff;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+    cursor: pointer;
+}    
+
+.bottomnav .link:hover {
+    text-decoration: underline;
+}
+
+.bottomnav .info {
+    color: #fff;
+    background: #292933;
+}
+
+.footer h6 {
+    margin-left: 5%;
+}
+
+.github:hover {
+    text-decoration: underline;
+}
+
+.applink Link:hover{
+    color:#ffffff;
+    text-decoration: underline;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+.main {
+    background-color: #262C33;
+    color: #ffffff;
+}
+
+.information {
+    color: #fff;
+    padding-left: 2%;
+}
+
+/* For Helpers.HTML */
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 30%;
+    text-align: left;
+    padding-left: 2%;
+    color: #fff
+}
