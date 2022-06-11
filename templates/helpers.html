@@ -8,8 +8,9 @@
 <div id="helpers" class="information">
     <h1>Meet The Helpers!</h1>
     <p>These group of people help to manage the sites! They are mostly reponsible for approving the modules
-        used here in this site, as well as contributing the codes.</p>
+        used here in this site, as well as contributing the codes. (Last Updated: 2022)</p>
 </div>
+<!-- TODO: Find Good Card Template -->
 <div class='card'>
     <h2>YS</h2>
     <p class="title">Adminstrator / Current Chemistry Undergraduate</p>
@@ -26,5 +27,18 @@
 <div id="helpers" class="information">
     <h3>Want to contribute?</h3>
     <p className="applink">Do register your interest <a href="/helperform">here!</a></p>
+</div>
+<div>
+    <h3>Already a helper?</h3>
+    <form method="post" action="/login">
+        <div>
+            <labe>NUS Email: </label>
+            <input type="email" name="email" placeholder="NUS Email" required/> 
+        </div>
+        <div>
+            <label>Password: </label>
+            <input type="password" name="passwordone" placeholder="Password" required />
+        </div>
+    </form>
 </div>
 {% endblock %}

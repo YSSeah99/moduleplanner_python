@@ -23,6 +23,7 @@
     <body>
         <header class="header">
             <a href="/"><img class="logo" src="/static/logo_transparent.png" alt="NUSPlanner"/><a>
+            <!-- TODO: Make Top Header Responsive -->
             <nav class="topnav" id="topnav">
                 <ul>
                     <li class="link"><a href="/">Home</a></li>
@@ -36,6 +37,10 @@
             </nav>
         </header>
         <div class="main">
+            <!-- TODO: Find Styles for Messages -->
+            {% for message in get_flashed_messages() %}
+            <h2>{{ message }}</h2>
+            {% endfor %}
             {% block main %}{% endblock %}
         </div>
         <footer class="footer">
