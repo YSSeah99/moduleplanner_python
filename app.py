@@ -18,13 +18,13 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    current = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    return render_template("index.html", current=current)
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("index.html", time=time)
 
 @app.route("/helpers",methods=["GET"])
 def helpers():
-    current = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    return render_template("helpers.html", current=current)
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("helpers.html", time=time)
 
 @app.route("/helperform",methods=["GET"])
 def helperform():
