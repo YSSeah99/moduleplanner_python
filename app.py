@@ -28,5 +28,5 @@ def helpers():
 
 @app.route("/helperform",methods=["GET"])
 def helperform():
-    current = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    return render_template("helperform.html", current=current)
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("helperform.html", time=time)
