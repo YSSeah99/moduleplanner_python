@@ -37,7 +37,6 @@ def helperform():
         
         password = request.form.get("passwordtwo")
         email = request.form.get("email")
-        name = request.form.get("name")
         telegram = request.form.get("telegram")
         
         if request.form.get("github"):
@@ -71,7 +70,7 @@ def helperform():
                     return redirect("/helperform")
                 
                 else:
-                    db.execute("INSERT INTO Helpersform (name, email, telegram, github, hash) VALUES (?, ?, ?, ?, ?)", name, email, telegram, github, hashed)
+                    db.execute("INSERT INTO Helpersform (email, telegram, github, hash) VALUES (?, ?, ?, ?)", email, telegram, github, hashed)
                     flash("You have successfully registered! Please wait to be contacted!","success")
                     return redirect("/helpers")
             
@@ -81,9 +80,40 @@ def helperform():
 
 @app.route("/adminpage",methods=["GET","POST"])
 def adminpage():
+    
     helperformDB = db.execute("SELECT * FROM Helpersform")
-    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    return render_template("admin.html", time=time, helpersform=helperformDB)
+    helperDB = db.execute("SELECT * FROM Helpers")
+    
+    if request.method == "POST" and request.form["adminbtn"] == "approve":
+        
+        if request.form.get("messaged") == None or request.form.get("recieved") == None or not (request.form.get("major")):
+            flash("Please go and verify the user first, YS!","error")
+            return redirect("/adminpage")
+        
+        else:
+            email = request.form.get("email")
+            telegram = request.form.get("telegram")
+            
+            if request.form.get("github"):
+                github = request.form.get("github")
+            
+            else:
+                github = ""
+            
+            password = helperformDB[0]["hash"]
+            major = request.form.get("major")
+            db.execute("DELETE from HelpersForm WHERE email = ?", email)
+            db.execute("INSERT INTO Helpers(email, telegram, github, hash, major) VALUES (?, ?, ?, ?, ?)", email, telegram, github, password, major)
+            return redirect("/adminpage")   
+    
+    elif request.method == "POST" and request.form["adminbtn"] == "ban":
+        email = request.form.get("email")
+        db.execute("DELETE from Helpers WHERE email = ?", email)
+        return redirect("/adminpage") 
+
+    else:
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return render_template("admin.html", time=time, helpersform=helperformDB, helpers=helperDB)
 
 if __name__ == '__main__':
     app.debug = True

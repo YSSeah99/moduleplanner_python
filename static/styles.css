@@ -249,3 +249,20 @@ a:hover {
     padding: 2% 0 2% 0;
     font-size: 100%;
 }
+
+/* For the tables */
+.table {
+    color: #ffffff;
+}
+
+.table .checkbox {
+    transform: scale(1.75);
+}
+
+.table th {
+    font-size: 110%;
+}
+
+.table tr {
+    vertical-align: middle;
+}
