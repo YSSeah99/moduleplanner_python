@@ -146,6 +146,34 @@ a:hover {
     padding-left: 2%;
 }
 
+/* For Flash Alerts */
+.alert {
+    padding: 12px;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    border-width: 2px;
+    border-style: solid;
+}
+  
+.alert-error {
+    border-color: darkred;
+    background-color: red;
+    color: white;
+}
+  
+.alert-info {
+    border-color: orange;
+    background-color: yellow;
+    color: black;
+}
+
+.alert-info {
+    border-color: darkgreen;
+    background-color: green;
+    color: black;
+}
+
 /* For Helpers.HTML */
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

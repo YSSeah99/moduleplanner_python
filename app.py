@@ -47,18 +47,18 @@ def helperform():
             github = ""
      
         if request.form.get("passwordone") != password:
-            flash("Password do not match")
+            flash("Password do not match","error")
             return redirect("/helperform")
         
         elif len(password) < 8:
-                flash("Password must be at least 8 characters long")
+                flash("Password must be at least 8 characters long","error")
                 return redirect("/helperform")
             
         else:
             hashed = generate_password_hash(password)
                 
             if "@u.nus.edu" not in email:
-                flash("Invalid email address")
+                flash("Invalid email address","error")
                 return redirect("/helperform")
                 
             else:
@@ -68,12 +68,12 @@ def helperform():
                 # TODO: checks database of helpers if name is already taken (If/Else check)
                 
                 if len(helperformDB) == 1 or len(helperDB) == 1:
-                    flash("You already have an account registered!")
+                    flash("You already have an account registered!","error")
                     return redirect("/helperform")
                 
                 else:
                     db.execute("INSERT INTO Helpersform (name, email, telegram, github, hash) VALUES (?, ?, ?, ?, ?)", name, email, telegram, github, hashed)
-                    flash("You have successfully registered!")
+                    flash("You have successfully registered! Please wait to be contacted!","success")
                     return redirect("/helpers")
             
     else:
