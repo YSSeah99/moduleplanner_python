@@ -163,31 +163,43 @@ a:hover {
 }
 
 /* For Flash Alerts TODO: Responsive Flash*/
-.alert {
-    padding: 12px;
-    border-radius: 3px;
-    font-size: 1.2rem;
-    margin: 2% 5% 2% 5%;
-    border-width: 2px;
-    border-style: solid;
+.alerts {
+    font-size: 1.25rem;
+    margin: 0.5% 5% 0.5% 5%;
     float: center;
+    height: 5%;
 }
-  
+
 .alert-error {
-    border-color: darkred;
     background-color: red;
     color: white;
 }
-  
-.alert-info {
-    border-color: orange;
+
+.alert-warn {
     background-color: yellow;
     color: black;
 }
 
 .alert-info {
-    border-color: darkgreen;
     background-color: green;
+    color: black;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 80%;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 100%;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding-right: 0.5%;
+}
+  
+/* When moving the mouse over the close button */
+.closebtn:hover {
     color: black;
 }
 
