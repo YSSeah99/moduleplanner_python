@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block main %}
+<!-- TODO: Find Styles for Error Messages -->
+{% for message in get_flashed_messages() %}
+<h2>{{ message }}</h2>
+{% endfor %}
 <div className="information">
     <h3>Want to contribute on this site? Fill up the form! No worries, your password is hashed. Once the admin
             recieves your form, he would PMed you on telegram for your student letter. This is to verify that you

@@ -37,10 +37,6 @@
             </nav>
         </header>
         <div class="main">
-            <!-- TODO: Find Styles for Messages -->
-            {% for message in get_flashed_messages() %}
-            <h2>{{ message }}</h2>
-            {% endfor %}
             {% block main %}{% endblock %}
         </div>
         <footer class="footer">

@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block main %}
+<!-- TODO: Find Styles for Error Messages -->
+{% for message in get_flashed_messages() %}
+<h2>{{ message }}</h2>
+{% endfor %}
 <div id="helpers" class="information">
     <h1>Meet The Helpers!</h1>
     <p>These group of people help to manage the sites! They are mostly reponsible for approving the modules
@@ -32,7 +36,7 @@
     <h3>Already a helper?</h3>
     <form method="post" action="/login">
         <div>
-            <labe>NUS Email: </label>
+            <label>NUS Email: </label>
             <input type="email" name="email" placeholder="NUS Email" required/> 
         </div>
         <div>
