@@ -37,7 +37,6 @@
                 </ul>
             </nav>
         </header>
-        <!-- TODO: Design a better flash message -->
         <div class="alerts">
             {% for category, message in get_flashed_messages(with_categories=True) %}
             <div class="alert-{{category}}">

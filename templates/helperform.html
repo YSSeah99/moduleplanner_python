@@ -5,13 +5,11 @@
 {% endblock %}
 
 {% block main %}
-<!-- TODO: Find Styles for Error Messages -->
 <div class="information">
     <h3>Want to contribute on this site? Fill up the form! No worries, your password is hashed. Once the admin
             recieves your form, he would PMed you on telegram for your student letter. This is to verify that you
             are a current NUS student. Upon successful application, you will be able to login and use the site.</h3>
     <br />
-    <!-- TODO: Find Good Form Template -->
     <form method="post" action="/helperform" class="form">
         <div class="mb-3">
             <label class="form-label">Name (As in NUS)</label>
@@ -38,7 +36,7 @@
             <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/> 
         </div>
         <div>
-            <button type="submit">Register</button>
+            <button type="submit">Register</button> <!-- TODO: Find a button design to submit the form -->
         </div>                
     </form>
 </div>

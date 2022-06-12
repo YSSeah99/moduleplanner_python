@@ -65,7 +65,6 @@ def helperform():
                 
                 helperformDB = db.execute("SELECT * FROM Helpersform WHERE email = ?", email)
                 helperDB = db.execute("SELECT * FROM Helpers WHERE email = ?", email) 
-                # TODO: checks database of helpers if name is already taken (If/Else check)
                 
                 if len(helperformDB) == 1 or len(helperDB) == 1:
                     flash("You already have an account registered!","error")
