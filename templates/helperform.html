@@ -6,9 +6,9 @@
 
 {% block main %}
 <div class="information">
-    <h3>Want to contribute on this site? Fill up the form! No worries, your password is hashed. Once the admin
-            recieves your form, he would PMed you on telegram for your student letter. This is to verify that you
-            are a current NUS student. Upon successful application, you will be able to login and use the site.</h3>
+    <h4>Want to contribute on this site? Fill up the form! No worries, your password is hashed (But try not to use a 
+        password you use often). Once the admin recieves your form, he would PMed you on telegram for your student letter. This is to verify that you
+        are a current NUS student. Upon successful application, you will be able to login and use the site.</h4>
     <br />
     <form method="post" action="/helperform" class="form">
         <div class="mb-3">
@@ -36,7 +36,7 @@
             <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/> 
         </div>
         <div>
-            <button type="submit">Register</button> <!-- TODO: Find a button design to submit the form -->
+            <button type="submit" class="btn">Register</button>
         </div>                
     </form>
 </div>
