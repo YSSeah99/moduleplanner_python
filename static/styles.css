@@ -168,8 +168,26 @@ a:hover {
     padding: 10px 15px 10px 15px;
     text-decoration: none;
 }
+
+.tbbtn {
+    -webkit-border-radius: 7;
+    -moz-border-radius: 7;
+    border-radius: 7px;
+    color: #ffffff;
+    font-size: 90%;
+    border-color: #272d2f;
+    background: #272d2f;
+    padding: 10px 15px 10px 15px;
+    text-decoration: none;
+}
   
 .btn:hover {
+    background: #496069;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.tbbtn:hover {
     background: #496069;
     text-decoration: none;
     color: #ffffff;
@@ -261,8 +279,10 @@ a:hover {
 
 .table th {
     font-size: 110%;
+    background-color: #3d4146;
 }
 
 .table tr {
     vertical-align: middle;
+    background-color: #3D4752;
 }

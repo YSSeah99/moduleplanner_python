@@ -25,10 +25,37 @@ def index():
     time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     return render_template("index.html", time=time)
 
-@app.route("/helpers",methods=["GET"])
+@app.route("/helpers",methods=["GET","POST"])
 def helpers():
-    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    return render_template("helpers.html", time=time)
+    
+    if request.method == "POST" and request.form["btn"] == "login":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        rows = db.execute("SELECT * FROM helpers WHERE email = ?", email)
+        
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
+            flash("Invalid Login","error")
+            return redirect("/helpers")
+
+        else:
+            session["user_id"] = rows[0]["id"]
+            flash("Login successful","info")
+            return redirect("/helpers")
+        
+    else:
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return render_template("helpers.html", time=time)
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    flash("Logout successful","info")
+    return redirect("/helpers")
 
 @app.route("/helperform",methods=["GET","POST"])
 def helperform():

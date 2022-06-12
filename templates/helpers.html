@@ -34,6 +34,10 @@
     </div>
 </div>
 <br/>
+{% if session["user_id"] %}
+<h3> Hello, Helper! </h3>
+<p> Click <a href="/">here</a> to approve modules and click <a href="/logout">here</a> to logout! </p>
+{% else %}
 <div id="helpers" class="information">
     <h3>Want to contribute?</h3>
     <p className="applink">Do register your interest <a href="/helperform">here!</a></p>
@@ -41,18 +45,19 @@
 <br/>
 <div>
     <h3>Already a helper? Login here!</h3>
-    <form method="post" action="/login" class="form">
+    <form method="post" class="form" action="/helpers">
         <div class="mb-3">
             <label class="form-label">NUS Email: </label>
             <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
         </div>
         <div class="mb-3">
             <label class="form-label">Password: </label>
-            <input type="password" name="passwordone" placeholder="Password" required class="form-control"/>
+            <input type="password" name="password" placeholder="Password" required class="form-control"/>
         </div>
         <div>
-            <button type="submit" class="btn">Log In</button>
+            <button type="submit" class="btn" value="login" name="btn">Log In</button>
         </div>   
     </form>
+{% endif %}
 </div>
 {% endblock %}
