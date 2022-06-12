@@ -79,7 +79,13 @@ def helperform():
     else:
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("helperform.html", time=time)  
-    
+
+@app.route("/adminpage",methods=["GET","POST"])
+def adminpage():
+    helperformDB = db.execute("SELECT * FROM Helpersform;")
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("admin.html", time=time, helpersform=helperformDB)
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
