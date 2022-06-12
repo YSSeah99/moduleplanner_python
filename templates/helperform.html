@@ -10,31 +10,32 @@
     <h3>Want to contribute on this site? Fill up the form! No worries, your password is hashed. Once the admin
             recieves your form, he would PMed you on telegram for your student letter. This is to verify that you
             are a current NUS student. Upon successful application, you will be able to login and use the site.</h3>
+    <br />
     <!-- TODO: Find Good Form Template -->
-    <form method="post" action="/helperform">
-        <div>
-            <label for="helpername">Name (As in NUS): </label>
-            <input type="text" name="name" placeholder=" Full Name" required/>
+    <form method="post" action="/helperform" class="form">
+        <div class="mb-3">
+            <label class="form-label">Name (As in NUS)</label>
+            <input type="text" name="name" placeholder=" Full Name" required class="form-control"/>
         </div>
-        <div>
-            <label>NUS Email: </label>
-            <input type="email" name="email" placeholder="NUS Email" required/> 
+        <div class="mb-3">
+            <label class="form-label">NUS Email</label>
+            <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
         </div>
-        <div>
-            <label>Telegram Handle: </label>
-            <input type="text" name="telegram" placeholder="Telegram Handle" required/> 
+        <div class="mb-3">
+            <label class="form-label">Telegram Handle</label>
+            <input type="text" name="telegram" placeholder="Telegram Handle" required class="form-control"/> 
         </div>
-        <div>
-            <label>Github (Optional): </label>
-            <input type="text" name="github" placeholder="Github (Optional)" />  
+        <div class="mb-3">
+            <label class="form-label">Github (Optional)</label>
+            <input type="text" name="github" placeholder="Github (Optional)" class="form-control"/>  
         </div>
-        <div>
-            <label>Password: </label>
-            <input type="password" name="passwordone" placeholder="Password" required />
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="passwordone" placeholder="Password" required class="form-control"/>
         </div>
-        <div>
-            <label>Confirm Password: </label>
-            <input type="password" name="passwordtwo" placeholder="Confirm Password" required /> 
+        <div class="mb-3">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/> 
         </div>
         <div>
             <button type="submit">Register</button>

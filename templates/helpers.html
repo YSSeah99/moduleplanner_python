@@ -11,34 +11,49 @@
         used here in this site, as well as contributing the codes. (Last Updated: 2022)</p>
 </div>
 <!-- TODO: Find Good Card Template -->
-<div class='card'>
-    <h2>YS</h2>
-    <p class="title">Adminstrator / Current Chemistry Undergraduate</p>
-    <p>He created this site as part of his CS50x project,
-    in hopes that his coursemates will use this site!</p>
-    <div class="social-links">
-        <h6>Email: yusiangseah99@u.nus.edu</h6>
-        <h6>Telegram: @yusiang_seah</h6>
-        <h6>Github: @YSSeah99</h6>
-        <h6>Connect with him via LinkedIn !</h6>
-        <p>[Social Links to Be Updated. Lol.]</p>
+<div class='card-container'>
+    <div class='admincard'>
+        <h2>YS</h2>
+        <p class="title">Administrator / Current Chemistry Undergraduate</p>
+        <p>He created this site as part of his CS50x project,
+        in hopes that his coursemates will use this site!</p>
+        <div class="social-links">
+            <h6>Email: yusiangseah99@u.nus.edu</h6>
+            <h6>Telegram: @yusiang_seah</h6>
+            <h6>Github: @YSSeah99</h6>
+            <h6>Connect with him via LinkedIn !</h6>
+        </div>
+    </div>
+    <div class='card1'>
+        <h2>Next Helper</h2>
+        <p class="title">Lead Helper</p>
+        <p>He created this site as part of his CS50x project,
+        in hopes that his coursemates will use this site!</p>
+        <div class="social-links">
+            <p>[Social Links to Be Updated. Lol.]</p>
+        </div>
     </div>
 </div>
+<br/>
 <div id="helpers" class="information">
     <h3>Want to contribute?</h3>
     <p className="applink">Do register your interest <a href="/helperform">here!</a></p>
 </div>
+<br/>
 <div>
-    <h3>Already a helper?</h3>
-    <form method="post" action="/login">
-        <div>
-            <label>NUS Email: </label>
-            <input type="email" name="email" placeholder="NUS Email" required/> 
+    <h3>Already a helper? Login here!</h3>
+    <form method="post" action="/login" class="form">
+        <div class="mb-3">
+            <label class="form-label">NUS Email: </label>
+            <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password: </label>
+            <input type="password" name="passwordone" placeholder="Password" required class="form-control"/>
         </div>
         <div>
-            <label>Password: </label>
-            <input type="password" name="passwordone" placeholder="Password" required />
-        </div>
+            <button type="submit">Log In</button>
+        </div>   
     </form>
 </div>
 {% endblock %}

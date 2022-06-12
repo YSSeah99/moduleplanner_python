@@ -82,7 +82,7 @@ def helperform():
 
 @app.route("/adminpage",methods=["GET","POST"])
 def adminpage():
-    helperformDB = db.execute("SELECT * FROM Helpersform;")
+    helperformDB = db.execute("SELECT * FROM Helpersform")
     time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     return render_template("admin.html", time=time, helpersform=helperformDB)
 

@@ -1,5 +1,4 @@
 body {
-    margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
@@ -14,7 +13,7 @@ code {
 }
 
 header {
-    padding: 10px 0;
+    padding: 1% 0;
     text-align: left;
     background: #39424D;
     height: 5%;
@@ -76,6 +75,12 @@ a:hover {
         display: block;
         text-align: left;
     }
+}
+
+.main {
+    margin-top: 2%;
+    text-align: center;
+    align-items: center;
 }
 
 .footer {
@@ -144,16 +149,28 @@ a:hover {
 .information {
     color: #fff;
     padding-left: 2%;
+    padding-right: 2%;
 }
 
-/* For Flash Alerts */
+.form {
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+/* For admin.HTML */
+.approvallist {
+    align-items: center;
+}
+
+/* For Flash Alerts TODO: Responsive Flash*/
 .alert {
     padding: 12px;
     border-radius: 3px;
     font-size: 1.2rem;
-    margin-bottom: 16px;
+    margin: 2% 5% 2% 5%;
     border-width: 2px;
     border-style: solid;
+    float: center;
 }
   
 .alert-error {
@@ -175,10 +192,30 @@ a:hover {
 }
 
 /* For Helpers.HTML */
-.card {
+.card-container {
+    display: grid;
+    grid-template-columns: 1.5% 30% 3% 30% 3% 30% 1.5%;
+    row-gap: 1rem;
+}
+
+.admincard {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 30%;
-    text-align: left;
-    padding-left: 2%;
-    color: #fff
+    margin: 2% 0 2% 0;
+    height: auto;
+    background-color: #303740;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    padding: 2% 0 2% 0;
+    font-size: 100%;
+}
+
+.card1 {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 2% 0 2% 0;
+    height: auto;
+    background-color: #303740;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    padding: 2% 0 2% 0;
+    font-size: 100%;
 }
