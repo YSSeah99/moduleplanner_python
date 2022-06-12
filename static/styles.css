@@ -81,6 +81,7 @@ a:hover {
     margin-top: 2%;
     text-align: center;
     align-items: center;
+    margin-bottom: 2%;
 }
 
 .footer {
@@ -155,6 +156,23 @@ a:hover {
 .form {
     padding-left: 30%;
     padding-right: 30%;
+}
+
+.btn {
+    -webkit-border-radius: 7;
+    -moz-border-radius: 7;
+    border-radius: 7px;
+    color: #ffffff;
+    font-size: 90%;
+    background: #34444A;
+    padding: 10px 15px 10px 15px;
+    text-decoration: none;
+}
+  
+.btn:hover {
+    background: #496069;
+    text-decoration: none;
+    color: #ffffff;
 }
 
 /* For admin.HTML */
