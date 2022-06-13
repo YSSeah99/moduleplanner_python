@@ -165,7 +165,7 @@ def adminpage():
             db.execute("INSERT INTO Helpers(email, telegram, github, hash, major) VALUES (?, ?, ?, ?, ?)", email, telegram, github, password, major)
             return redirect("/adminpage")   
     
-    elif request.method == "POST" and request.form["adminbtn"] == "ban":
+    elif request.method == "POST" and request.form.get["adminbtn"] == "ban":
         email = request.form.get("email")
         db.execute("DELETE from Helpers WHERE email = ?", email)
         return redirect("/adminpage") 
@@ -176,8 +176,57 @@ def adminpage():
 
 @app.route("/moduleform",methods=["GET","POST"])
 def moduleform():
-    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    return render_template("moduleform.html", time=time)
+    
+    moduleDB = db.execute("SELECT * FROM Modules")
+    
+    if request.method == "POST" and request.form.get("offerone") == None and request.form.get("offertwo") == None and request.form.get("offertree") == None and request.form.get("offerfour") == None: 
+        flash("Please indicate which semester/s the module is offered","error")
+        return redirect("/moduleform")
+    
+    elif request.method == "POST" and request.form.get("btn") == "submit":
+        
+        code = request.form.get("modulecode")
+        name = request.form.get("modulename")
+        mc = request.form.get("modulecredits")
+        link = request.form.get("modulelink")
+        m = db.execute("SELECT * FROM Modules WHERE code = ?", code)
+        
+        if len(m) == 1:
+            flash("Module in the system!","error")
+            return redirect("/moduleform")
+        
+        else:
+            semone = 1 if request.form.get("offerone") == "semone" else 0
+            semtwo = 1 if request.form.get("offertwo") == "semtwo" else 0
+            semthree = 1 if request.form.get("offerthree") == "semthree" else 0
+            semfour = 1 if request.form.get("offerfour") == "semfour" else 0
+            db.execute("INSERT INTO Modules (code, name, mc, modlink, semone, semtwo, semthree, semfour) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", code, name, mc, link, semone, semtwo, semthree, semfour)
+            flash("Module successfully submitted! Please wait for the staff to approve.","info")
+            return redirect("/moduleform")
+        
+    elif request.method == "POST" and request.form.get("btn") == "resubmit":
+        
+        code = request.form.get("modulecode")
+        mc = request.form.get("modulecredits")
+        link = request.form.get("modulelink")
+        m = db.execute("SELECT * FROM Modules WHERE code = ?", code)
+        
+        if len(m) != 1:
+            flash("Module not in the system!","error")
+            return redirect("/moduleform")
+        
+        else:
+            semone = 1 if request.form.get("offerone") == "semone" else 0
+            semtwo = 1 if request.form.get("offertwo") == "semtwo" else 0
+            semthree = 1 if request.form.get("offerthree") == "semthree" else 0
+            semfour = 1 if request.form.get("offerfour") == "semfour" else 0
+            db.execute("UPDATE Modules SET mc = ?, modlink = ?, semone = ?, semtwo = ?, semthree = ?, semfour = ?, approved = ? WHERE code = ?", mc, link, semone, semtwo, semthree, semfour, 0, code)
+            flash("Module successfully submitted! Please wait for the staff to approve.","info")
+            return redirect("/moduleform")
+        
+    else:
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return render_template("moduleform.html", time=time)
 
 if __name__ == '__main__':
     app.debug = True

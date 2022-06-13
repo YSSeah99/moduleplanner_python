@@ -10,30 +10,32 @@
         password you use often). Once the admin recieves your form, he would PMed you on telegram for your student letter. This is to verify that you
         are a current NUS student. Upon successful application, you will be able to login and use the site.</h4>
     <br />
-    <form method="post" action="/helperform" class="form">
-        <div class="mb-3">
-            <label class="form-label">NUS Email</label>
-            <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Telegram Handle</label>
-            <input type="text" name="telegram" placeholder="Telegram Handle" required class="form-control"/> 
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Github (Optional)</label>
-            <input type="text" name="github" placeholder="Github (Optional)" class="form-control"/>  
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="passwordone" placeholder="Password" required class="form-control"/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/> 
-        </div>
-        <div>
-            <button type="submit" class="btn">Register</button>
-        </div>                
-    </form>
+    <div class="form-group">
+        <form method="post" action="/helperform" class="form">
+            <div class="mb-3">
+                <label class="form-label">NUS Email</label>
+                <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Telegram Handle</label>
+                <input type="text" name="telegram" placeholder="Telegram Handle" required class="form-control"/> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Github (Optional)</label>
+                <input type="text" name="github" placeholder="Github (Optional)" class="form-control"/>  
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="passwordone" placeholder="Password" required class="form-control"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/> 
+            </div>
+            <div>
+                <button type="submit" class="btn">Register</button>
+            </div>                
+        </form>
+    </div>
 </div>
 {% endblock %}

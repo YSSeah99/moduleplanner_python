@@ -153,9 +153,19 @@ a:hover {
     padding-right: 2%;
 }
 
+/* For Forms */
+
 .form {
     padding-left: 30%;
     padding-right: 30%;
+}
+
+.form-group {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 2% 0 2% 0;
+    padding: 2% 0 2% 0;
+    height: auto;
+    background-color: #303740;
 }
 
 .btn {
@@ -203,7 +213,8 @@ a:hover {
     font-size: 1.25rem;
     margin: 0.5% 5% 0.5% 5%;
     float: center;
-    height: 5%;
+    height: 10%;
+    line-height: 500%;
 }
 
 .alert-error {
@@ -223,7 +234,6 @@ a:hover {
 
 /* The close button */
 .closebtn {
-    margin-left: 80%;
     color: white;
     font-weight: bold;
     float: right;
@@ -285,4 +295,14 @@ a:hover {
 .table tr {
     vertical-align: middle;
     background-color: #3D4752;
+}
+
+.cb {
+    transform: scale(1.5);
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.cbline {
+    display: inline;
 }

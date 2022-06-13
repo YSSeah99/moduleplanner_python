@@ -9,31 +9,96 @@
     <h4>Since I do not have permission from the NUS side, and importing the modules is beyond my jobscope, it would 
         be nice if you guys can help us fill up this form! Me and the helpers will be notified and the modules will be 
         added to the system upon approval! </h4>
-    <br />
-    <form method="post" action="/helperform" class="form">
-        <div class="mb-3">
-            <label class="form-label">NUS Email</label>
-            <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Telegram Handle</label>
-            <input type="text" name="telegram" placeholder="Telegram Handle" required class="form-control"/> 
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Github (Optional)</label>
-            <input type="text" name="github" placeholder="Github (Optional)" class="form-control"/>  
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="passwordone" placeholder="Password" required class="form-control"/>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/> 
-        </div>
-        <div>
-            <button type="submit" class="btn">Register</button>
-        </div>                
-    </form>
+    <div class="form-group">
+        <h5>For New Modules</h5>
+        <br />
+        <form method="post" action="/moduleform" class="form">
+            <div class="mb-3">
+                <label class="form-label">Module Code ( If < 2, type AAXXXX / BBYYYY )</label>
+                <input type="text" name="modulecode" placeholder="Module Code" required class="form-control"/> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Module Name ( Full Name, same as NUSMods )</label>
+                <input type="text" name="modulename" placeholder="Module Name" required class="form-control"/> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">No. of MCs</label>
+                <input type="number" name="modulecredits" placeholder="No. of MCs" required class="form-control" min="1" max="20"/> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Offered in:</label>
+                <br />
+                <div class="cbline">
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Sem 1</label>
+                        <input class="form-check-input" type="checkbox" name="offerone" value="semone"/> 
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Sem 2</label>
+                        <input class="form-check-input" type="checkbox" name="offertwo" value="semtwo"/>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Special Term 1</label>
+                        <input class="form-check-input" type="checkbox" name="offerthree" value="semthree"/>
+                    </div> 
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Special Term 2</label>
+                        <input class="form-check-input" type="checkbox" name="offerfour" value="semfour"/>
+                    </div> 
+                </div> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">NUSMods Link</label>
+                <input type="text" name="modulelink" placeholder="https://nusmods.com/modules/" required class="form-control" min="1"/> 
+            </div>
+            <div>
+                <button type="submit" class="btn" value="submit" name="btn">Submit</button>
+            </div>                
+        </form>
+    </div>
+    <div class="form-group">
+        <h5>For Existing Modules</h5>
+        <p>If there is a change in the module code, feel free to PM the helpers and admin.</p>
+        <br />
+        <form method="post" action="/moduleform" class="form">
+            <div class="mb-3">
+                <label class="form-label">Module Code</label>
+                <input type="text" name="modulecode" placeholder="Module Code" required class="form-control"/> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">No. of MCs</label>
+                <input type="number" name="modulecredits" placeholder="No. of MCs" required class="form-control" min="1" max="20"/> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Offered in:</label>
+                <br />
+                <div class="cbline">
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Sem 1</label>
+                        <input class="form-check-input" type="checkbox" name="offerone" value="semone"/> 
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Sem 2</label>
+                        <input class="form-check-input" type="checkbox" name="offertwo" value="semtwo"/>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Special Term 1</label>
+                        <input class="form-check-input" type="checkbox" name="offerthree" value="semthree"/>
+                    </div> 
+                    <div class="form-check form-check-inline">
+                        <label class="form-label">Special Term 2</label>
+                        <input class="form-check-input" type="checkbox" name="offerfour" value="semfour"/>
+                    </div> 
+                </div> 
+            </div>
+            <div class="mb-3">
+                <label class="form-label">NUSMods Link</label>
+                <input type="text" name="modulelink" placeholder="https://nusmods.com/modules/" required class="form-control" min="1"/> 
+            </div>
+            <div>
+                <button type="submit" class="btn" value="resubmit" name="btn">Submit</button>
+            </div>                
+        </form>
+    </div>
 </div>
 {% endblock %}
