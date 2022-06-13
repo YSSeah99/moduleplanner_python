@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add in your modules!
+{% endblock %}
+
+{% block main %}
+<div class="information">
+    <h4>Since I do not have permission from the NUS side, and importing the modules is beyond my jobscope, it would 
+        be nice if you guys can help us fill up this form! Me and the helpers will be notified and the modules will be 
+        added to the system upon approval! </h4>
+    <br />
+    <form method="post" action="/helperform" class="form">
+        <div class="mb-3">
+            <label class="form-label">NUS Email</label>
+            <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Telegram Handle</label>
+            <input type="text" name="telegram" placeholder="Telegram Handle" required class="form-control"/> 
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Github (Optional)</label>
+            <input type="text" name="github" placeholder="Github (Optional)" class="form-control"/>  
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="passwordone" placeholder="Password" required class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/> 
+        </div>
+        <div>
+            <button type="submit" class="btn">Register</button>
+        </div>                
+    </form>
+</div>
+{% endblock %}

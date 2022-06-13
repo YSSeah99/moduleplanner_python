@@ -5,6 +5,7 @@ from datetime import datetime
 from flask import Flask, flash, redirect, render_template, request, session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
+from helpers import login_required, admin_only
 from secret import secretpassword
 
 app = Flask(__name__)
@@ -106,6 +107,7 @@ def helperform():
         return render_template("helperform.html", time=time)  
 
 @app.route("/adminpage",methods=["GET","POST"])
+@admin_only
 def adminpage():
     
     helperformDB = db.execute("SELECT * FROM Helpersform")
@@ -141,6 +143,11 @@ def adminpage():
     else:
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("admin.html", time=time, helpersform=helperformDB, helpers=helperDB)
+
+@app.route("/moduleform",methods=["GET","POST"])
+def moduleform():
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("moduleform.html", time=time)
 
 if __name__ == '__main__':
     app.debug = True
