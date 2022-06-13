@@ -35,8 +35,35 @@
 </div>
 <br/>
 {% if session["user_id"] %}
-<h3> Hello, Helper! </h3>
-<p> Click <a href="/">here</a> to approve modules and click <a href="/logout">here</a> to logout! </p>
+<div id="helpers" class="information">
+    <h3> Hello, Helper! </h3>
+    <p> Click <a href="/">here</a> to approve modules and click <a href="/logout">here</a> to logout! </p>
+</div>
+<br />
+<div>
+    <h3>Want to change password?</h3>
+    <form method="post" class="form" action="/helpers">
+        <div class="mb-3">
+            <label class="form-label">NUS Email: </label>
+            <input type="email" name="email" placeholder="NUS Email" required class="form-control"/> 
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Old Password: </label>
+            <input type="password" name="oldpassword" placeholder="Previous Password" required class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">New Password: </label>
+            <input type="password" name="passwordone" placeholder="New Password" required class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Confirm New Password: </label>
+            <input type="password" name="passwordtwo" placeholder="Confirm Password" required class="form-control"/>
+        </div>
+        <div>
+            <button type="submit" class="btn" value="change" name="btn">Change Password</button>
+        </div>   
+    </form>
+</div>
 {% else %}
 <div id="helpers" class="information">
     <h3>Want to contribute?</h3>
@@ -58,6 +85,6 @@
             <button type="submit" class="btn" value="login" name="btn">Log In</button>
         </div>   
     </form>
-{% endif %}
 </div>
+{% endif %}
 {% endblock %}

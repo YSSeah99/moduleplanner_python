@@ -43,6 +43,36 @@ def helpers():
             flash("Login successful","info")
             return redirect("/helpers")
         
+    elif request.method == "POST" and request.form["btn"] == "change":
+        email = request.form.get("email")
+        oldpassword = request.form.get("oldpassword")
+        rows = db.execute("SELECT * FROM helpers WHERE email = ?", email)
+        passwordone = request.form.get("passwordone")
+        passwordtwo = request.form.get("passwordtwo")
+        
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], oldpassword):
+            flash("Invalid Email or Password.","error")
+            return redirect("/helpers")
+        
+        elif passwordone != passwordtwo:
+            flash("Passwords do not match.","error")
+            return redirect("/helpers")
+        
+        elif oldpassword == passwordtwo:
+            flash("Wait, I thought you were changing your password? Please key in ANOTHER password.","error")
+            return redirect("/helpers")
+        
+        elif len(passwordtwo) < 8:
+            flash("Password must be at least 8 characters.","error")
+            return redirect("/helpers")
+        
+        else:
+            hash = generate_password_hash(passwordtwo)
+            db.execute("UPDATE helpers SET hash = ? WHERE email = ?", hash, email)
+            session.clear()
+            flash("Password successfully updated. Please relogin.","info")
+            return redirect("/helpers")
+        
     else:
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("helpers.html", time=time)
