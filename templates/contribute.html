@@ -1,9 +1,60 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Page
+    Hi Helper!
 {% endblock %}
 
 {% block main %}
-<p>Page</p>
+<h6 class="card">This page belongs to the helper with email: {{ email }}</h6>
+<br />
+<h3>New Modules For Approval</h3>
+<ul style="list-style-type:none;">
+    <li class="information">Click on the NUSMods URL to verify the validity of the module.</li>
+    <li class="information">Cross check the information provided by the user. If the information does not match, 
+        google the modules details as NUSMods may not be accurate</li>
+    <li class="information">If the information is correct, click on the approve button to approve the module.</li>
+    <li class="information">If the information is incorrect, click on the reject button to reject the module.</li>
+    <li class="information">If you are unsure, do not do anything. PM the admin instead.</li>
+    <li class="information">Note: Modules with multiple module code will be approved by the admin himself due to 
+        its complexity.</li>
+</ul>
+<div class="approvallist">
+    <table class="table">
+        <thead>
+            <tr>
+                <th rowspan="2" colspan="1">Module Code</th>
+                <th rowspan="2">Module Name</th>
+                <th rowspan="2">No. of MCs</th>
+                <th colspan="4">Offered In</th>
+                <th rowspan="2">NUSMods Link</th>
+                <th rowspan="2" colspan="2">Buttons</th>
+            </tr>
+            <tr>
+                <th>Sem 1</th>
+                <th>Sem 2</th>
+                <th>ST 1</th>
+                <th>ST 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for module in modules %}
+                <tr>
+                    <form method="post">
+                        <td name="code">{{ module.code }}</td>
+                        <td name="name">{{ module.name }}</td>
+                        <td name="mc">{{ module.mc }}</td>
+                        <td name="semone">{% if (module.semone == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+                        <td name="semtwo">{% if (module.semtwo == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+                        <td name="semthree">{% if (module.semthree == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+                        <td name="semfour">{% if (module.semfour == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+
+                    </form>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</br>
+<h3>List of Helpers</h3>
+</div>
 {% endblock %}

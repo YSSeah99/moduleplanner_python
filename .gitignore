@@ -1,4 +1,5 @@
 secret.py
 planner.db
 templates/admin.html
+templates/contribute.html
 helpers.py
