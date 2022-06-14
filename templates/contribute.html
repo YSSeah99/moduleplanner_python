@@ -12,9 +12,8 @@
     <li class="information">Click on the NUSMods URL to verify the validity of the module.</li>
     <li class="information">Cross check the information provided by the user. If the information does not match, 
         google the modules details as NUSMods may not be accurate</li>
-    <li class="information">If the information is correct, click on the approve button to approve the module.</li>
-    <li class="information">If the information is incorrect, click on the reject button to reject the module.</li>
-    <li class="information">If you are unsure, do not do anything. PM the admin instead.</li>
+    <li class="information">If the information is correct, click on the "Approve" button to approve the module.</li>
+    <li class="information">If the information is incorrect or unsure, click on the "Send to Admin" Button.</li>
     <li class="information">Note: Modules with multiple module code will be approved by the admin himself due to 
         its complexity.</li>
 </ul>
@@ -39,15 +38,18 @@
         <tbody>
             {% for module in modules %}
                 <tr>
+                    <td>{{ module.code }}</td>
+                    <td>{{ module.name }}</td>
+                    <td>{{ module.mc }}</td>
+                    <td>{% if (module.semone == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+                    <td>{% if (module.semtwo == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+                    <td>{% if (module.semthree == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+                    <td>{% if (module.semfour == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
+                    <td><a href="{{ module.modlink }}" target="_blank">{{ module.modlink }}</a></td>
                     <form method="post">
-                        <td name="code">{{ module.code }}</td>
-                        <td name="name">{{ module.name }}</td>
-                        <td name="mc">{{ module.mc }}</td>
-                        <td name="semone">{% if (module.semone == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
-                        <td name="semtwo">{% if (module.semtwo == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
-                        <td name="semthree">{% if (module.semthree == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
-                        <td name="semfour">{% if (module.semfour == 1)%}&#9989;{% else %}&#10060;{% endif %}</td>
-
+                        <td><button type="submit" class="btn" value="approve" name="btn">Approve</button></td>
+                        <td><button type="submit" class="btn" value="unsure" name="btn">Send to Admin</button></td>
+                        <input type="hidden" name="link" value={{ module.modlink }} />
                     </form>
                 </tr>
             {% endfor %}

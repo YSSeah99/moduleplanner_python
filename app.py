@@ -228,6 +228,26 @@ def moduleform():
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("moduleform.html", time=time)
 
+@app.route("/contribute",methods=["GET","POST"])
+@login_required
+def contribute():
+    
+    helperDB = db.execute("SELECT * FROM Helpers WHERE id = ?", session.get("user_id")) 
+    moduleDB = db.execute("SELECT * FROM Modules WHERE approved = 0")
+    
+    if request.method == "POST" and request.form.get("btn") == "approve":
+        db.execute("UPDATE Modules SET approved = 1 WHERE modlink = ?", request.form.get("link"))
+        return redirect("/contribute")
+    
+    elif request.method == "POST" and request.form.get("btn") == "unsure":
+        db.execute("UPDATE Modules SET approved = 2 WHERE modlink = ?", request.form.get("link"))
+        return redirect("/contribute")
+        
+    else:
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return render_template("contribute.html", time=time, modules=moduleDB, email=helperDB[0]["email"])
+    
+    
 if __name__ == '__main__':
     app.debug = True
     app.run()

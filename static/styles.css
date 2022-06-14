@@ -278,6 +278,12 @@ a:hover {
     font-size: 100%;
 }
 
+.card {
+    width: 50%;
+    margin: 0 25% 0 25%;
+    color: black;
+}
+
 /* For the tables */
 .table {
     color: #ffffff;
