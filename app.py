@@ -26,6 +26,7 @@ def index():
     time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     return render_template("index.html", time=time)
 
+
 @app.route("/helpers",methods=["GET","POST"])
 def helpers():
     
@@ -77,6 +78,7 @@ def helpers():
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("helpers.html", time=time)
 
+
 @app.route("/logout")
 def logout():
     """Log user out"""
@@ -87,6 +89,7 @@ def logout():
     # Redirect user to login form
     flash("Logout successful","info")
     return redirect("/helpers")
+
 
 @app.route("/helperform",methods=["GET","POST"])
 def helperform():
@@ -136,14 +139,16 @@ def helperform():
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("helperform.html", time=time)  
 
+
 @app.route("/adminpage",methods=["GET","POST"])
 @admin_only
 def adminpage():
     
     helperformDB = db.execute("SELECT * FROM Helpersform")
     helperDB = db.execute("SELECT * FROM Helpers")
+    nonmodulesDB = db.execute("SELECT * FROM Modules WHERE approved = 2")
     
-    if request.method == "POST" and request.form["adminbtn"] == "approve":
+    if request.method == "POST" and request.form["adminbtn"] == "approvehelper":
         
         if request.form.get("messaged") == None or request.form.get("recieved") == None or not (request.form.get("major")):
             flash("Please go and verify the user first, YS!","error")
@@ -165,14 +170,26 @@ def adminpage():
             db.execute("INSERT INTO Helpers(email, telegram, github, hash, major) VALUES (?, ?, ?, ?, ?)", email, telegram, github, password, major)
             return redirect("/adminpage")   
     
-    elif request.method == "POST" and request.form.get["adminbtn"] == "ban":
+    elif request.method == "POST" and request.form.get("adminbtn") == "ban":
         email = request.form.get("email")
         db.execute("DELETE from Helpers WHERE email = ?", email)
-        return redirect("/adminpage") 
-
+        return redirect("/adminpage")
+    
+    elif request.method == "POST" and request.form.get("adminbtn") == "approvetwo":
+        db.execute("UPDATE Modules SET approved = 1 WHERE modlink = ?", request.form.get("link"))
+        return redirect("/adminpage")
+    
+    elif request.method == "POST" and request.form.get("adminbtn") == "reject":
+        db.execute("DELETE from Modules WHERE modlink = ?", request.form.get("link"))
+        return redirect("/adminpage")
+    
+    elif request.method == "POST" and request.form.get("adminbtn") == "edit":
+        return redirect("/editmodule")
+        
     else:
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        return render_template("admin.html", time=time, helpersform=helperformDB, helpers=helperDB)
+        return render_template("admin.html", time=time, helpersform=helperformDB, helpers=helperDB, nonmodules=nonmodulesDB)
+
 
 @app.route("/moduleform",methods=["GET","POST"])
 def moduleform():
@@ -228,6 +245,7 @@ def moduleform():
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("moduleform.html", time=time)
 
+
 @app.route("/contribute",methods=["GET","POST"])
 @login_required
 def contribute():
@@ -242,10 +260,44 @@ def contribute():
     elif request.method == "POST" and request.form.get("btn") == "unsure":
         db.execute("UPDATE Modules SET approved = 2 WHERE modlink = ?", request.form.get("link"))
         return redirect("/contribute")
-        
+    
     else:
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("contribute.html", time=time, modules=moduleDB, email=helperDB[0]["email"])
+    
+
+@app.route("/editmodule",methods=["POST"])
+@admin_only
+def editmodule():
+    
+    if request.method == "POST":
+        
+        if request.form.get("modulecode"):
+            db.execute("UPDATE Modules SET code = ? WHERE modlink = ?", request.form.get("modulecode"), request.form.get("link"))
+        
+        if request.form.get("modulename"):
+            db.execute("UPDATE Modules SET name = ? WHERE modlink = ?", request.form.get("modulename"), request.form.get("link"))
+        
+        if request.form.get("modulecredits"):
+            db.execute("UPDATE Modules SET mc = ? WHERE modlink = ?", request.form.get("modulecredits"), request.form.get("link"))
+        
+        if request.form.get("modulelink"):
+            moduleOfInterest = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
+            db.execute("UPDATE Modules SET modlink = ? WHERE code = ?", request.form.get("modulelink"), moduleOfInterest[0]["code"])
+            
+        semone = 1 if request.form.get("offerone") == "semone" else 0
+        semtwo = 1 if request.form.get("offertwo") == "semtwo" else 0
+        semthree = 1 if request.form.get("offerthree") == "semthree" else 0
+        semfour = 1 if request.form.get("offerfour") == "semfour" else 0
+        moduleOfInterest = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
+        db.execute("UPDATE Modules SET semone = ?, semtwo = ?, semthree = ?, semfour = ?, approved = ? WHERE code = ?", semone, semtwo, semthree, semfour, 1, moduleOfInterest[0]["code"])
+        flash("Module successfully edited!","info")
+        return redirect("/adminpage")
+        
+    else:
+        row = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return render_template("editmodule.html", module=row[0], time=time)
     
     
 if __name__ == '__main__':

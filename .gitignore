@@ -2,4 +2,5 @@ secret.py
 planner.db
 templates/admin.html
 templates/contribute.html
+templates/editmodule.html
 helpers.py
