@@ -147,6 +147,7 @@ def adminpage():
     helperformDB = db.execute("SELECT * FROM Helpersform")
     helperDB = db.execute("SELECT * FROM Helpers")
     nonmodulesDB = db.execute("SELECT * FROM Modules WHERE approved = 2")
+    mModuleDB = db.execute("SELECT * FROM Modules WHERE code LIKE '%/%' ")
     
     if request.method == "POST" and request.form["adminbtn"] == "approvehelper":
         
@@ -184,11 +185,22 @@ def adminpage():
         return redirect("/adminpage")
     
     elif request.method == "POST" and request.form.get("adminbtn") == "edit":
-        return redirect("/editmodule")
-        
+        row = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        redirect("/editmodule")
+        return render_template("editmodule.html", module=row[0], time=time)
+    
+    elif request.method == "POST" and request.form.get("adminbtn") == "split":
+        row = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
+        codes = row[0]["code"].split("/")
+        db.execute("UPDATE Modules SET code = ?, approved = ? WHERE modlink = ?", codes[0], 2, row[0]["modlink"])
+        for code in range(1, len(codes)):
+            db.execute("INSERT INTO Modules (code, name, mc, modlink, semone, semtwo, semthree, semfour, approved) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", codes[code], row[0]["name"], row[0]["mc"], row[0]["modlink"], row[0]["semone"], row[0]["semtwo"], row[0]["semthree"], row[0]["semfour"], 2)
+        return redirect("/adminpage")
+    
     else:
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        return render_template("admin.html", time=time, helpersform=helperformDB, helpers=helperDB, nonmodules=nonmodulesDB)
+        return render_template("admin.html", time=time, helpersform=helperformDB, helpers=helperDB, nonmodules=nonmodulesDB, Mmodules=mModuleDB)
 
 
 @app.route("/moduleform",methods=["GET","POST"])
@@ -251,7 +263,7 @@ def moduleform():
 def contribute():
     
     helperDB = db.execute("SELECT * FROM Helpers WHERE id = ?", session.get("user_id")) 
-    moduleDB = db.execute("SELECT * FROM Modules WHERE approved = 0")
+    moduleDB = db.execute("SELECT * FROM Modules WHERE approved = 0 AND code NOT LIKE '%/%'")
     
     if request.method == "POST" and request.form.get("btn") == "approve":
         db.execute("UPDATE Modules SET approved = 1 WHERE modlink = ?", request.form.get("link"))
@@ -266,7 +278,7 @@ def contribute():
         return render_template("contribute.html", time=time, modules=moduleDB, email=helperDB[0]["email"])
     
 
-@app.route("/editmodule",methods=["POST"])
+@app.route("/editmodule",methods=["GET","POST"])
 @admin_only
 def editmodule():
     
@@ -290,7 +302,7 @@ def editmodule():
         semthree = 1 if request.form.get("offerthree") == "semthree" else 0
         semfour = 1 if request.form.get("offerfour") == "semfour" else 0
         moduleOfInterest = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
-        db.execute("UPDATE Modules SET semone = ?, semtwo = ?, semthree = ?, semfour = ?, approved = ? WHERE code = ?", semone, semtwo, semthree, semfour, 1, moduleOfInterest[0]["code"])
+        db.execute("UPDATE Modules SET semone = ?, semtwo = ?, semthree = ?, semfour = ?, approved = ? WHERE code = ?", semone, semtwo, semthree, semfour, 0, moduleOfInterest[0]["code"])
         flash("Module successfully edited!","info")
         return redirect("/adminpage")
         
@@ -298,7 +310,6 @@ def editmodule():
         row = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("editmodule.html", module=row[0], time=time)
-    
     
 if __name__ == '__main__':
     app.debug = True
