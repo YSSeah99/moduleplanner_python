@@ -1,8 +1,9 @@
 import os
+from this import s
 
 from cs50 import SQL
 from datetime import datetime
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required, admin_only
@@ -310,7 +311,18 @@ def editmodule():
         row = db.execute("SELECT * FROM Modules WHERE modlink = ?", request.form.get("link"))
         time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("editmodule.html", module=row[0], time=time)
-    
+
+
+@app.route("/modules")
+def modules():
+    q = request.args.get("q")
+    if q:
+        modules = db.execute("SELECT * FROM Modules WHERE approved = 1 AND code LIKE ? OR name LIKE ?", "%" + str(q) + "%", "%" + str(q) + "%")
+    else:
+        modules = db.execute("SELECT * FROM Modules WHERE approved = 1")
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("modules.html", time=time, modules=modules)
+
 if __name__ == '__main__':
     app.debug = True
     app.run()

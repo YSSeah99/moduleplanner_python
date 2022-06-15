@@ -312,3 +312,16 @@ a:hover {
 .cbline {
     display: inline;
 }
+
+.searchbar {
+    padding: 0 30% 0 30%;
+    transform: scale(1.5);
+}
+
+.modulecard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 0% 25% 0% 25%;
+    padding: 1% 0 1% 0;
+    height: auto;
+    background-color: #323d4c;
+}

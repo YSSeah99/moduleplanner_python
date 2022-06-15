@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Page
+{% endblock %}
+
+{% block main %}
+<div class="searchbar">
+    <form class="mb-3">
+        <input autocomplete="off" class="form-control" type="text" placeholder="Module code or names" name="q" autofocus>
+    </form>
+</div>
+<br />
+<br />
+{% for module in modules %}
+<div class="modulecard">
+    <h3><a href="{{ module.modlink }}">{{ module.code }}</a></h3>
+    <h4><a href="{{ module.modlink }}">{{ module.name }}</a></h4>
+    <h6>4 MCs</h6>
+    <br />
+    <p>Offered In:</p>
+    <p>  
+        Sem 1: {% if (module.semone == 1)%}&#9989;{% else %}&#10060;{% endif %}
+        Sem 2: {% if (module.semtwo == 1)%}&#9989;{% else %}&#10060;{% endif %}
+        ST 1: {% if (module.semthree == 1)%}&#9989;{% else %}&#10060;{% endif %}
+        ST 2: {% if (module.semfour == 1)%}&#9989;{% else %}&#10060;{% endif %}
+    </p>
+</div>
+<br />
+{% endfor %}
+{% endblock %}
