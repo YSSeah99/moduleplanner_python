@@ -1,9 +1,10 @@
 import os
-from this import s
+
+from pkg_resources import require
 
 from cs50 import SQL
 from datetime import datetime
-from flask import Flask, flash, redirect, render_template, request, session, jsonify
+from flask import Flask, flash, redirect, render_template, request, session, make_response, jsonify
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required, admin_only
@@ -12,7 +13,10 @@ from secret import secretpassword
 app = Flask(__name__)
 app.secret_key = secretpassword
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+SESSION_COOKIE_SECURE = True
+REMEMBER_COOKIE_SECURE = True
 db = SQL("sqlite:///planner.db")
+
 
 @app.after_request
 def after_request(response):
@@ -22,10 +26,30 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-@app.route("/")
+
+@app.route("/",methods=["GET","POST"])
 def index():
-    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    return render_template("index.html", time=time)
+    
+    if request.method == "POST" and request.form["btn"] == "submit":
+        year = request.form.get("year")
+        requirements = db.execute("SELECT * FROM Requirements, degrees WHERE Requirements.degreeid = degrees.id AND degrees.degreename = ?", request.form.get("degree"))
+        
+        if requirements[0]["totalmc"] == 160:
+            ys = 4
+        elif requirements[0]["totalmc"] == 120:
+            ys = 3
+        else:
+            ys = 0
+        
+        degrees = db.execute("SELECT * FROM degrees")
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return render_template("index.html", time=time, degrees=degrees, requirements=requirements[0], years = ys)
+    
+    else:
+        requirements=""
+        degrees = db.execute("SELECT * FROM degrees")
+        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        return render_template("index.html", time=time, degrees=degrees, requirements=requirements, years = 0)
 
 
 @app.route("/helpers",methods=["GET","POST"])

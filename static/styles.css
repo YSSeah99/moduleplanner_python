@@ -325,3 +325,25 @@ a:hover {
     height: auto;
     background-color: #323d4c;
 }
+
+.questions {
+    padding: 0 30% 0 30%;
+    transform: scale(1);
+}
+
+/* For the infotables */
+.infotable {
+    color: #ffffff;
+    margin: 0% 25% 0% 25%;
+    text-align: center;
+}
+
+.infotable th {
+    font-size: 110%;
+    background-color: #2a2b2d;
+}
+
+.infotable tr {
+    vertical-align: middle;
+    background-color: #3D4752;
+}
