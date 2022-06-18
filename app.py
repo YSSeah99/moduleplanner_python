@@ -33,8 +33,10 @@ def after_request(response):
 def index():
     
     alphaBets = ("Y", "X", "W", "U", "R", "N", "M", "L", "J", "H", "E", "A", "B")
+    degrees = db.execute("SELECT * FROM degrees")
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
-    if request.method == "POST" and request.form["btn"] == "submit":
+    if request.method == "POST" and (request.form["btn"] == "submit" or request.form["btn"] == "enter"):
         year = request.form.get("year")
         requirements = db.execute("SELECT * FROM Requirements, degrees WHERE Requirements.degreeid = degrees.id AND degrees.degreename = ?", request.form.get("degree"))
         
@@ -56,71 +58,46 @@ def index():
         minorthree = 1 if request.form.get("minorthree") == "minorthree" else 0
         
         if not ((minorone == 0 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 1)):
-            flash("Please select 1st Minor first, followed by 2nd Minor then 3rd Minor.", "error")
-            return redirect("/")
-        
-        if (year == "twozerotwoone" or year == "oneninetwozero") and requirements[0]["version"] == 1:
-            degrees = db.execute("SELECT * FROM degrees")
-            time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            return render_template("index.html", time=time, degrees=degrees, requirements=requirements[0], years = ys, spec=spec, secondmajor=secondmajor, minorone=minorone, minortwo=minortwo, minorthree=minorthree)
-        
-        else:
-            return redirect("/")
-    
-    # for user when they want to save their plans
-    elif request.method == "POST" and request.form["btn"] == "enter":
-        
-        planname = request.form.get("planname")
-        planDB = db.execute("SELECT * FROM Plans")
-        
-        # checks validity of their matriculation / nusnet id
-        if len(planname) != 8 or not (planname[:3].isdigit and planname[3] in alphaBets and planname[4:].isdigit): 
-            flash("Invalid matriculation number or NUSNET ID.", "error")
-            return redirect("/")
-        
-        year = request.form.get("year")
-        degrees = db.execute("SELECT * FROM degrees")
-        spec = 1 if request.form.get("spec") == "spec" else 0
-        secondmajor = 1 if request.form.get("secondmajor") == "secondmajor" else 0
-        minorone = 1 if request.form.get("minorone") == "minorone" else 0
-        minortwo = 1 if request.form.get("minortwo") == "minortwo" else 0
-        minorthree = 1 if request.form.get("minorthree") == "minorthree" else 0
-        requirements = db.execute("SELECT * FROM Requirements, degrees WHERE Requirements.degreeid = degrees.id AND degrees.degreename = ?", request.form.get("degree"))
-        
-        if requirements[0]["totalmc"] == 160:
-            ys = 4
-        elif requirements[0]["totalmc"] == 120:
-            ys = 3
-        else:
-            ys = 0
-        
-        if not year or not request.form.get("degree"):
-            flash("Please fill up year / degree.", "error")
-            return redirect("/")
-        
-        if not ((minorone == 0 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 1)):
-            flash("Please select 1st Minor first, followed by 2nd Minor then 3rd Minor.", "error")
-            return redirect("/")
-        
-        # check if user has already has a plan
-        if len(planDB)!= 0:
-            for i in range(len(planDB)):
-                if (check_password_hash(planDB[i]["hashname"], planname)):
-                    db.execute("UPDATE Plans SET year = ?, degreename = ?, spec = ?, secondmajor = ?, minorone = ?, minortwo = ?, minorthree = ? WHERE id = ?", request.form.get("year"), request.form.get("degree"), spec, secondmajor, minorone, minortwo, minorthree, (i + 1))
-                    planDB = db.execute("SELECT * FROM Plans WHERE id = ?", (i + 1))
-                    break
-        
-        else:
-            db.execute("INSERT INTO Plans (hashname, year, degreename, spec, secondmajor, minorone, minortwo, minorthree) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", generate_password_hash(planname), request.form.get("year"), request.form.get("degree"), spec, secondmajor, minorone, minortwo, minorthree)
-            planDB = db.execute("SELECT * FROM Plans WHERE id = ?", len(planDB))
+                flash("Please select 1st Minor first, followed by 2nd Minor then 3rd Minor.", "error")
+                return redirect("/")
             
-        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        return render_template("index.html", time=time, degrees=degrees, requirements=requirements[0], years = ys, spec=spec, secondmajor=secondmajor, minorone=minorone, minortwo=minortwo, minorthree=minorthree)
+        if request.form["btn"] == "submit":
         
+            if (year == "twozerotwoone" or year == "oneninetwozero") and requirements[0]["version"] == 1:
+                return render_template("index.html", time=time, degrees=degrees, requirements=requirements[0], years = ys, spec=spec, secondmajor=secondmajor, minorone=minorone, minortwo=minortwo, minorthree=minorthree)
+            
+            else:
+                return redirect("/")
+        
+        # for user when they want to save their plans
+        elif request.form["btn"] == "enter":
+            
+            planname = request.form.get("planname")
+            planDB = db.execute("SELECT * FROM Plans")
+            
+            # checks validity of their matriculation / nusnet id
+            if len(planname) != 8 or not (planname[:3].isdigit and planname[3] in alphaBets and planname[4:].isdigit): 
+                flash("Invalid matriculation number or NUSNET ID.", "error")
+                return redirect("/")
+            
+            # check if user has already has a plan
+            if len(planDB)!= 0:
+                for i in range(len(planDB)):
+                    if (check_password_hash(planDB[i]["hashname"], planname)):
+                        db.execute("UPDATE Plans SET year = ?, degreename = ?, spec = ?, secondmajor = ?, minorone = ?, minortwo = ?, minorthree = ? WHERE id = ?", request.form.get("year"), request.form.get("degree"), spec, secondmajor, minorone, minortwo, minorthree, (i + 1))
+                        planDB = db.execute("SELECT * FROM Plans WHERE id = ?", (i + 1))
+                        flash("Plan successfully updated!", "success")
+                        break
+            
+            else:
+                db.execute("INSERT INTO Plans (hashname, year, degreename, spec, secondmajor, minorone, minortwo, minorthree) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", generate_password_hash(planname), request.form.get("year"), request.form.get("degree"), spec, secondmajor, minorone, minortwo, minorthree)
+                planDB = db.execute("SELECT * FROM Plans WHERE id = ?", len(planDB))
+                flash("Plan successfully created!", "success")
+            
+            return render_template("index.html", time=time, degrees=degrees, requirements=requirements[0], years = ys, spec=spec, secondmajor=secondmajor, minorone=minorone, minortwo=minortwo, minorthree=minorthree)
+      
     else:
         requirements=""
-        degrees = db.execute("SELECT * FROM degrees")
-        time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return render_template("index.html", time=time, degrees=degrees, requirements=requirements, years = 0)
 
 

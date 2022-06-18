@@ -8,7 +8,7 @@
 <h1> Planner </h1>
 <br />
 <div class="questions">
-    <form name="qns" method="post">
+    <form method="post">
         <select name="year" class="form-select">
             <option value="">Select your matriculation year</option>
             <option value="twotwotwothree">AY 22 / 23</option>
@@ -61,45 +61,6 @@
     </form>
 </div>
 <br />
-<div class="infotable">
-    <table class="table">
-        <tr>
-            <th>Summary of Requirements</th>
-            <th>Current</th>
-            <th>Target</th>
-        </tr>
-        <tr>
-            <th>University Requirements</th>
-            <td> MCs</td>
-            <td>{{ requirements.unimc }} MCs</td>
-        </tr>
-        <tr>
-            <th>Faculty Requirements</th>
-            <td> MCs</td>
-            <td>{{ requirements.facmc }} MCs</td>
-        </tr>
-        <tr>
-            <th>University Requirements</th>
-            <td> MCs</td>
-            <td>{{ requirements.majormc }} MCs</td>
-        </tr>
-        <tr>
-            <th>Unrestricted Elective Modules</th>
-            <td> MCs</td>
-            <td>{{ requirements.uemc }} MCs</td>
-        </tr>
-        {% if (spec == 1) %}<tr><th>Specialisation Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (secondmajor == 1) %}<tr><th>2nd Major Requirements</th><td> MCs</td><td>40 MCs</td></tr>{% else %}{% endif %}
-        {% if (minorone  == 1) %}<tr><th>1st Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (minortwo  == 1) %}<tr><th>2nd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (minorthree  == 1) %}<tr><th>3rd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        <tr class="lastrow">
-            <th>Total</th>
-            <td> MCs</td>
-            <td>{{ requirements.totalmc }} MCs</td>
-        </tr>
-    </table>
-</div>
 <br />
 {% for year in range(years) %}
 <br />
@@ -297,5 +258,45 @@
 </div>
 <br />
 <br />
+<br />
 {% endfor %}
+<div class="infotable">
+    <table class="table">
+        <tr>
+            <th>Summary of Requirements</th>
+            <th>Current</th>
+            <th>Target</th>
+        </tr>
+        <tr>
+            <th>University Requirements</th>
+            <td> MCs</td>
+            <td>{{ requirements.unimc }} MCs</td>
+        </tr>
+        <tr>
+            <th>Faculty Requirements</th>
+            <td> MCs</td>
+            <td>{{ requirements.facmc }} MCs</td>
+        </tr>
+        <tr>
+            <th>University Requirements</th>
+            <td> MCs</td>
+            <td>{{ requirements.majormc }} MCs</td>
+        </tr>
+        <tr>
+            <th>Unrestricted Elective Modules</th>
+            <td> MCs</td>
+            <td>{{ requirements.uemc }} MCs</td>
+        </tr>
+        {% if (spec == 1) %}<tr><th>Specialisation Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (secondmajor == 1) %}<tr><th>2nd Major Requirements</th><td> MCs</td><td>40 MCs</td></tr>{% else %}{% endif %}
+        {% if (minorone  == 1) %}<tr><th>1st Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (minortwo  == 1) %}<tr><th>2nd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (minorthree  == 1) %}<tr><th>3rd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        <tr class="lastrow">
+            <th>Total</th>
+            <td> MCs</td>
+            <td>{{ requirements.totalmc }} MCs</td>
+        </tr>
+    </table>
+</div>
 {% endblock %}
