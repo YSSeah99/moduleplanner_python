@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block main %}
+<h1> Planner </h1>
+<br />
 <div class="questions">
     <form name="qns" method="post">
         <select name="year" class="form-select">
@@ -16,15 +18,46 @@
         </select>
     <br />
         <select name="degree" class="form-select">
-            <option value="">Select your degree</option>
+            <option value="">Select your degree / major</option>
             {% for degree in degrees %}
                 <option value="{{ degree.degreename }}">{{ degree.degreename }}</option>
             {% endfor %}
         </select>
+        <br />
+        <label class="form-label">Please check if you have enrolled in any of them below:</label>
+        <br />
+        <div class="cbline">
+            <div class="form-check form-check-inline">
+                <label class="form-label">Specialisation</label>
+                <input class="form-check-input" type="checkbox" name="spec" value="spec"/> 
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-label">2nd Major</label>
+                <input class="form-check-input" type="checkbox" name="secondmajor" value="secondmajor"/>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-label">Minor 1</label>
+                <input class="form-check-input" type="checkbox" name="minorone" value="minorone"/>
+            </div> 
+            <div class="form-check form-check-inline">
+                <label class="form-label">Minor 2</label>
+                <input class="form-check-input" type="checkbox" name="minortwo" value="minortwo"/>
+            </div> 
+            <div class="form-check form-check-inline">
+                <label class="form-label">Minor 3</label>
+                <input class="form-check-input" type="checkbox" name="minorthree" value="minorthree"/>
+            </div> 
+        </div>
     <br />
-        <input type="text" class="form-control" name="planname" placeholder="Random Name for Your Planner ( i.e. Tom's Planner )" required/>
-        <br /> 
-        <button type="submit" class="btn" value="submit" name="btn">Enter</button>
+        <button type="submit" class="btn" value="submit" name="btn">Submit</button>
+    <br /> 
+    <br />
+        <label class="form-label">Matriculation No. and NUSNET ID (Last 4 characters of both)</label>
+        <input type="text" class="form-control" name="planname" placeholder=""/>
+        <br />
+        <h6> For example, a student with matriculation number A1234567X and NUSNET ID E1234567 would have inputted "567X4567"</h6>
+        <p> By clicking this button, you are acknowledging that you are sending part of your personal particulars into the system </p>
+        <button type="submit" class="btn" value="enter" name="btn">Save / Update Plan</button>
     </form>
 </div>
 <br />
@@ -55,14 +88,15 @@
             <td> MCs</td>
             <td>{{ requirements.uemc }} MCs</td>
         </tr>
+        {% if (spec == 1) %}<tr><th>Specialisation Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (secondmajor == 1) %}<tr><th>2nd Major Requirements</th><td> MCs</td><td>40 MCs</td></tr>{% else %}{% endif %}
+        {% if (minorone  == 1) %}<tr><th>1st Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (minortwo  == 1) %}<tr><th>2nd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (minorthree  == 1) %}<tr><th>3rd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
         <tr class="lastrow">
             <th>Total</th>
             <td> MCs</td>
             <td>{{ requirements.totalmc }} MCs</td>
-        </tr>
-        <tr>
-            <th>Progress:</th>
-            <td colspan="2">Met!</td>
         </tr>
     </table>
 </div>
