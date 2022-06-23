@@ -4,3 +4,4 @@ templates/admin.html
 templates/contribute.html
 templates/editmodule.html
 helpers.py
+templates/plans.html

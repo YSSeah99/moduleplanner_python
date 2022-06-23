@@ -1,5 +1,6 @@
 import os
 from re import I
+import re
 from tkinter.messagebox import YESNOCANCEL
 
 from pkg_resources import require
@@ -9,7 +10,7 @@ from datetime import datetime
 from flask import Flask, flash, redirect, render_template, request, session, make_response, jsonify
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import login_required, admin_only
+from helpers import login_required, admin_only, load_plan_as_session
 from secret import secretpassword
 
 app = Flask(__name__)
@@ -36,69 +37,124 @@ def index():
     degrees = db.execute("SELECT * FROM degrees")
     time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
-    if request.method == "POST" and (request.form["btn"] == "submit" or request.form["btn"] == "enter"):
-        year = request.form.get("year")
-        requirements = db.execute("SELECT * FROM Requirements, degrees WHERE Requirements.degreeid = degrees.id AND degrees.degreename = ?", request.form.get("degree"))
+    # when user wants to load existing plan
+    if request.method == "POST" and request.form["btn"] == "load":
+        planname = request.form.get("planname")
+        planDB = db.execute("SELECT * FROM Plans")
         
-        if not year or not request.form.get("degree"):
-            flash("Please fill up year / degree.", "error")
+        # checks validity of their matriculation / nusnet id
+        if len(planname) != 8 or not (planname[:3].isdigit and planname[3] in alphaBets and planname[4:].isdigit): 
+            flash("Invalid matriculation number or NUSNET ID.", "error")
             return redirect("/")
         
-        if requirements[0]["totalmc"] == 160:
-            ys = 4
-        elif requirements[0]["totalmc"] == 120:
-            ys = 3
+        # check if user has already has a plan
+        if len(planDB)!= 0:
+            for i in range(len(planDB)):
+                if (check_password_hash(planDB[i]["hashname"], planname)):
+                    planDB = db.execute("SELECT * FROM Plans WHERE id = ?", (i + 1))
+                    flash("Plan successfully loaded!", "success")
+                    session["user_id"] = int(planDB[0]["id"]) + 500
+                    return redirect("/plan")
+                    break
+        
+        # rejects when planname not found
         else:
-            ys = 0
+            flash("Please create a plan first!", "error")
+            return redirect("/")
+                
+    # when user selects year and degree
+    elif request.method == "POST" and (request.form["btn"] == "create"):
+        planname = request.form.get("planname")
+        planDB = db.execute("SELECT * FROM Plans")
         
-        spec = 1 if request.form.get("spec") == "spec" else 0
-        secondmajor = 1 if request.form.get("secondmajor") == "secondmajor" else 0
-        minorone = 1 if request.form.get("minorone") == "minorone" else 0
-        minortwo = 1 if request.form.get("minortwo") == "minortwo" else 0
-        minorthree = 1 if request.form.get("minorthree") == "minorthree" else 0
+        if not planname:
+            flash("Please enter your matriculatio number and NUSNET ID!", "error")
+            return redirect("/")
         
-        if not ((minorone == 0 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 1)):
-                flash("Please select 1st Minor first, followed by 2nd Minor then 3rd Minor.", "error")
-                return redirect("/")
-            
-        if request.form["btn"] == "submit":
-        
-            if (year == "twozerotwoone" or year == "oneninetwozero") and requirements[0]["version"] == 1:
-                return render_template("index.html", time=time, degrees=degrees, requirements=requirements[0], years = ys, spec=spec, secondmajor=secondmajor, minorone=minorone, minortwo=minortwo, minorthree=minorthree)
-            
+        # check if user has already has a plan (if does prompt error, else creates)
+        if len(planDB)!= 0:
+            for i in range(len(planDB)):
+                if (check_password_hash(planDB[i]["hashname"], planname)):
+                    flash("Plan already exist! Just load the existing plan or save / update the plan.", "error")   
+                    return redirect("/")
+                    break
+                
             else:
-                return redirect("/")
-        
-        # for user when they want to save their plans
-        elif request.form["btn"] == "enter":
-            
-            planname = request.form.get("planname")
-            planDB = db.execute("SELECT * FROM Plans")
-            
-            # checks validity of their matriculation / nusnet id
-            if len(planname) != 8 or not (planname[:3].isdigit and planname[3] in alphaBets and planname[4:].isdigit): 
-                flash("Invalid matriculation number or NUSNET ID.", "error")
-                return redirect("/")
-            
-            # check if user has already has a plan
-            if len(planDB)!= 0:
-                for i in range(len(planDB)):
-                    if (check_password_hash(planDB[i]["hashname"], planname)):
-                        db.execute("UPDATE Plans SET year = ?, degreename = ?, spec = ?, secondmajor = ?, minorone = ?, minortwo = ?, minorthree = ? WHERE id = ?", request.form.get("year"), request.form.get("degree"), spec, secondmajor, minorone, minortwo, minorthree, (i + 1))
-                        planDB = db.execute("SELECT * FROM Plans WHERE id = ?", (i + 1))
-                        flash("Plan successfully updated!", "success")
-                        break
-            
-            else:
-                db.execute("INSERT INTO Plans (hashname, year, degreename, spec, secondmajor, minorone, minortwo, minorthree) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", generate_password_hash(planname), request.form.get("year"), request.form.get("degree"), spec, secondmajor, minorone, minortwo, minorthree)
+                year = request.form.get("year")
+                degreename = request.form.get("degree")
+                
+                if not year or not request.form.get("degree"):
+                    flash("Please fill up year / degree.", "error")
+                    return redirect("/")
+                
+                spec = 1 if request.form.get("spec") == "spec" else 0
+                secondmajor = 1 if request.form.get("secondmajor") == "secondmajor" else 0
+                minorone = 1 if request.form.get("minorone") == "minorone" else 0
+                minortwo = 1 if request.form.get("minortwo") == "minortwo" else 0
+                minorthree = 1 if request.form.get("minorthree") == "minorthree" else 0
+                
+                if not ((minorone == 0 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 1)):
+                    flash("Please select 1st Minor first, followed by 2nd Minor then 3rd Minor.", "error")
+                    return redirect("/")
+                
+                degreeID = db.execute("SELECT id FROM Degrees WHERE degreename = ?", degreename)
+                db.execute("INSERT INTO Plans (hashname, year, degreename, spec, secondmajor, minorone, minorone, minorthree) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", generate_password_hash(planname), year, degreeID[0]["id"], spec, secondmajor, minorone, minortwo, minorthree)
                 planDB = db.execute("SELECT * FROM Plans WHERE id = ?", len(planDB))
                 flash("Plan successfully created!", "success")
+                session["user_id"] = int(planDB[0]["id"]) + 500
+                return redirect("/plan")
+    
+    # check if user has already has a plan (if does updates)  
+    elif request.method == "POST" and (request.form["btn"] == "update"):
+        planname = request.form.get("planname")
+        planDB = db.execute("SELECT * FROM Plans")
+        
+        if not planname:
+            flash("Please enter your matriculatio number and NUSNET ID!", "error")
+            return redirect("/")
             
-            return render_template("index.html", time=time, degrees=degrees, requirements=requirements[0], years = ys, spec=spec, secondmajor=secondmajor, minorone=minorone, minortwo=minortwo, minorthree=minorthree)
-      
+        if len(planDB)!= 0:
+            for i in range(len(planDB)):
+                if (check_password_hash(planDB[i]["hashname"], planname)):
+                    year = request.form.get("year")
+                    degreename = request.form.get("degree")
+                    
+                    if not year or not degreename:
+                        flash("Please fill up year / degree.", "error")
+                        return redirect("/")
+                    
+                    spec = 1 if request.form.get("spec") == "spec" else 0
+                    secondmajor = 1 if request.form.get("secondmajor") == "secondmajor" else 0
+                    minorone = 1 if request.form.get("minorone") == "minorone" else 0
+                    minortwo = 1 if request.form.get("minortwo") == "minortwo" else 0
+                    minorthree = 1 if request.form.get("minorthree") == "minorthree" else 0
+                    
+                    if not ((minorone == 0 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 0 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 0) or (minorone == 1 and minortwo == 1 and minorthree == 1)):
+                        flash("Please select 1st Minor first, followed by 2nd Minor then 3rd Minor.", "error")
+                        return redirect("/")
+                    
+                    degreeID = db.execute("SELECT id FROM Degrees WHERE degreename = ?", degreename)
+                    db.execute("UPDATE Plans SET year = ?, degreename = ?, spec = ?, secondmajor = ?, minorone = ?, minortwo = ?, minorthree = ? WHERE id = ?", year, degreeID[0]["id"], spec, secondmajor, minorone, minortwo, minorthree, (i+1))
+                    planDB = db.execute("SELECT * FROM Plans WHERE id = ?", len(planDB))
+                    flash("Plan successfully updated!", "success")
+                    session["user_id"] = int(planDB[0]["id"]) + 500
+                    return redirect("/plan")
+                    break
+                
+            else:
+                flash("Plan not found! Please create a plan first.", "error")
+                return redirect("/")
+                         
     else:
-        requirements=""
-        return render_template("index.html", time=time, degrees=degrees, requirements=requirements, years = 0)
+        return render_template("index.html", time=time, degrees=degrees)
+
+
+@app.route("/plan",methods=["GET","POST"])
+@load_plan_as_session
+def plan():
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    b = session["user_id"]
+    return render_template("plan.html",time=time, b=b)
 
 
 @app.route("/helpers",methods=["GET","POST"])

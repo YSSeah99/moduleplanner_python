@@ -5,298 +5,64 @@
 {% endblock %}
 
 {% block main %}
-<h1> Planner </h1>
+<h1>Degree Planner</h1>
 <br />
-<div class="questions">
-    <form method="post">
-        <select name="year" class="form-select">
-            <option value="">Select your matriculation year</option>
-            <option value="twotwotwothree">AY 22 / 23</option>
-            <option value="twoonetwotwo">AY 21 / 22</option>
-            <option value="twozerotwoone">AY 20 / 21</option>
-            <option value="oneninetwozero">AY 19 / 20</option>
-        </select>
-    <br />
-        <select name="degree" class="form-select">
-            <option value="">Select your degree / major</option>
-            {% for degree in degrees %}
-                <option value="{{ degree.degreename }}">{{ degree.degreename }}</option>
-            {% endfor %}
-        </select>
+<p>Note: For any submission, please ensure that the "Matriculation No. and NUSNET ID" is inputted.</p>
+<div class="form-group">
+    <div class="questions">
+        <form method="post">
+            <label class="form-label">Matriculation No. and NUSNET ID (Last 4 characters of both)</label>
+            <input type="text" class="form-control" name="planname" placeholder=""/>
+            <br />
+            <h6> For example, a student with matriculation number A1234567X and NUSNET ID E1234567 would have inputted "567X4567"</h6>
+            <br /><button type="submit" class="btn" value="load" name="btn">Load Existing Plan</button>
+            <br />
+            <br />
+            <select name="year" class="form-select">
+                <option value="">Select your matriculation year</option>
+                <option value="twotwotwothree">AY 22 / 23</option>
+                <option value="twoonetwotwo">AY 21 / 22</option>
+                <option value="twozerotwoone">AY 20 / 21</option>
+                <option value="oneninetwozero">AY 19 / 20</option>
+            </select>
         <br />
-        <label class="form-label">Please check if you have enrolled in any of them below:</label>
-        <br />
-        <div class="cbline">
-            <div class="form-check form-check-inline">
-                <label class="form-label">Specialisation</label>
-                <input class="form-check-input" type="checkbox" name="spec" value="spec"/> 
+            <select name="degree" class="form-select">
+                <option value="">Select your degree / major</option>
+                {% for degree in degrees %}
+                    <option value="{{ degree.degreename }}">{{ degree.degreename }}</option>
+                {% endfor %}
+            </select>
+            <br />
+            <label class="form-label">Please check if you have enrolled in any of them below:</label>
+            <br />
+            <div class="cbline">
+                <div class="form-check form-check-inline">
+                    <label class="form-label">Specialisation</label>
+                    <input class="form-check-input" type="checkbox" name="spec" value="spec"/> 
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-label">2nd Major</label>
+                    <input class="form-check-input" type="checkbox" name="secondmajor" value="secondmajor"/>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-label">Minor 1</label>
+                    <input class="form-check-input" type="checkbox" name="minorone" value="minorone"/>
+                </div> 
+                <div class="form-check form-check-inline">
+                    <label class="form-label">Minor 2</label>
+                    <input class="form-check-input" type="checkbox" name="minortwo" value="minortwo"/>
+                </div> 
+                <div class="form-check form-check-inline">
+                    <label class="form-label">Minor 3</label>
+                    <input class="form-check-input" type="checkbox" name="minorthree" value="minorthree"/>
+                </div> 
             </div>
-            <div class="form-check form-check-inline">
-                <label class="form-label">2nd Major</label>
-                <input class="form-check-input" type="checkbox" name="secondmajor" value="secondmajor"/>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-label">Minor 1</label>
-                <input class="form-check-input" type="checkbox" name="minorone" value="minorone"/>
-            </div> 
-            <div class="form-check form-check-inline">
-                <label class="form-label">Minor 2</label>
-                <input class="form-check-input" type="checkbox" name="minortwo" value="minortwo"/>
-            </div> 
-            <div class="form-check form-check-inline">
-                <label class="form-label">Minor 3</label>
-                <input class="form-check-input" type="checkbox" name="minorthree" value="minorthree"/>
-            </div> 
-        </div>
-    <br />
-        <button type="submit" class="btn" value="submit" name="btn">Submit</button>
-    <br /> 
-    <br />
-        <label class="form-label">Matriculation No. and NUSNET ID (Last 4 characters of both)</label>
-        <input type="text" class="form-control" name="planname" placeholder=""/>
         <br />
-        <h6> For example, a student with matriculation number A1234567X and NUSNET ID E1234567 would have inputted "567X4567"</h6>
+        <br />
         <p> By clicking this button, you are acknowledging that you are sending part of your personal particulars into the system </p>
-        <button type="submit" class="btn" value="enter" name="btn">Save / Update Plan</button>
-    </form>
-</div>
-<br />
-<br />
-{% for year in range(years) %}
-<br />
-<div class="yeartable">
-    <table class="table">
-        <tr>
-            <th colspan="9"> Year {{ year+1 }} Sem 1 </th>
-        </tr>
-        <tr>
-            <th>Module Code</th>
-            <th>Module Name</th>
-            <th>No. of MCs</th>
-            <th>Type 1</th>
-            <th>Type 2</th>
-            <th>Type 3</th>
-            <th>U.E. ?</th>
-            <th>Grade</th>
-            <th>Functions</th>
-        <tr>
-        <tr>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>
-                <button type="submit" class="btn" value="removemodule" name="btn">Remove Module</button>
-            </td>
-        </tr>
-        <tr>
-            <form name="mod" method="post">
-                <td colspan="3"><input type="text" name="modsemone" class="form-control"/></td>
-                <td>
-                    <select name="typeone" class="form-select">
-                        <option value="">Type of Module</option>
-                        <option value="uni">University Requirement</option>
-                        <option value="fac">Faculty Requirement</option>
-                        <option value="major">Major Requirement</option>
-                        <option value="majortwo">2nd Major Requirement</option>
-                        <option value="minorone">Minor (1) Requirement</option>
-                        <option value="minortwo">Minor (2) Requirement</option>
-                        <option value="minorthree">Minor (3) Requirement</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="typetwo" class="form-select">
-                        <option value="">Type of Module</option>
-                        <option value="major">Major Requirement</option>
-                        <option value="spec">Specialisation Requirement</option>
-                        <option value="majortwo">2nd Major Requirement</option>
-                        <option value="minorone">Minor (1) Requirement</option>
-                        <option value="minortwo">Minor (2) Requirement</option>
-                        <option value="minorthree">Minor (3) Requirement</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="typethree" class="form-select">
-                        <option value="">Type of Module</option>
-                        <option value="majortwo">2nd Major Requirement</option>
-                        <option value="minorone">Minor (1) Requirement</option>
-                        <option value="minortwo">Minor (2) Requirement</option>
-                        <option value="minorthree">Minor (3) Requirement</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="ue-qns" class="form-select">
-                        <option value="">Considered U.E?</option>
-                        <option value=1>Yes</option>
-                        <option value=0>No</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="grade" class="form-select">
-                        <option value="">Grade</option>
-                        <option value="NIL">NIL</option>
-                        <option value="aplus">A+</option>
-                        <option value="a">A</option>
-                        <option value="aminus">A-</option>
-                        <option value="bplus">B+</option>
-                        <option value="b">B</option>
-                        <option value="bminus">B-</option>
-                        <option value="cplus">C+</option>
-                        <option value="c">C</option>
-                        <option value="cplus">D+</option>
-                        <option value="c">D</option>
-                        <option value="s">S</option>
-                        <option value="u">U</option>
-                    </select>
-                </td>
-                <td>
-                    <button type="submit" class="btn" value="submit" name="btn">Add Module</button>
-                </td>
-            </form>
-        </tr>
-    </table>
-    <br />
-    <br />
-    <table class="table">
-        <tr>
-            <th colspan="9"> Year {{ year+1 }} Sem 2 </th>
-        </tr>
-        <tr>
-            <th>Module Code</th>
-            <th>Module Name</th>
-            <th>No. of MCs</th>
-            <th>Type 1</th>
-            <th>Type 2</th>
-            <th>Type 3</th>
-            <th>U.E. ?</th>
-            <th>Grade</th>
-            <th>Functions</th>
-        <tr>
-        <tr>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>Module Code</td>
-            <td>
-                <button type="submit" class="btn" value="removemodule" name="btn">Remove Module</button>
-            </td>
-        </tr>
-        <tr>
-            <form name="mod" method="post">
-                <td colspan="3"><input type="text" name="modsemone" class="form" class="form-control"/></td>
-                <td>
-                    <select name="typeone" class="form-select">
-                        <option value="">Type of Module</option>
-                        <option value="uni">University Requirement</option>
-                        <option value="fac">Faculty Requirement</option>
-                        <option value="major">Major Requirement</option>
-                        <option value="majortwo">2nd Major Requirement</option>
-                        <option value="minorone">Minor (1) Requirement</option>
-                        <option value="minortwo">Minor (2) Requirement</option>
-                        <option value="minorthree">Minor (3) Requirement</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="typetwo" class="form-select">
-                        <option value="">Type of Module</option>
-                        <option value="major">Major Requirement</option>
-                        <option value="spec">Specialisation Requirement</option>
-                        <option value="majortwo">2nd Major Requirement</option>
-                        <option value="minorone">Minor (1) Requirement</option>
-                        <option value="minortwo">Minor (2) Requirement</option>
-                        <option value="minorthree">Minor (3) Requirement</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="typethree" class="form-select">
-                        <option value="">Type of Module</option>
-                        <option value="majortwo">2nd Major Requirement</option>
-                        <option value="minorone">Minor (1) Requirement</option>
-                        <option value="minortwo">Minor (2) Requirement</option>
-                        <option value="minorthree">Minor (3) Requirement</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="ue-qns" class="form-select">
-                        <option value="">Considered U.E?</option>
-                        <option value=1>Yes</option>
-                        <option value=0>No</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="grade" class="form-select">
-                        <option value="">Grade</option>
-                        <option value="NIL">NIL</option>
-                        <option value="aplus">A+</option>
-                        <option value="a">A</option>
-                        <option value="aminus">A-</option>
-                        <option value="bplus">B+</option>
-                        <option value="b">B</option>
-                        <option value="bminus">B-</option>
-                        <option value="cplus">C+</option>
-                        <option value="c">C</option>
-                        <option value="cplus">D+</option>
-                        <option value="c">D</option>
-                        <option value="s">S</option>
-                        <option value="u">U</option>
-                    </select>
-                </td>
-                <td>
-                    <button type="submit" class="btn" value="addmodule" name="btn">Add Module</button>
-                </td>
-            </form>
-        </tr>
-    </table>
-</div>
-<br />
-<br />
-<br />
-{% endfor %}
-<div class="infotable">
-    <table class="table">
-        <tr>
-            <th>Summary of Requirements</th>
-            <th>Current</th>
-            <th>Target</th>
-        </tr>
-        <tr>
-            <th>University Requirements</th>
-            <td> MCs</td>
-            <td>{{ requirements.unimc }} MCs</td>
-        </tr>
-        <tr>
-            <th>Faculty Requirements</th>
-            <td> MCs</td>
-            <td>{{ requirements.facmc }} MCs</td>
-        </tr>
-        <tr>
-            <th>University Requirements</th>
-            <td> MCs</td>
-            <td>{{ requirements.majormc }} MCs</td>
-        </tr>
-        <tr>
-            <th>Unrestricted Elective Modules</th>
-            <td> MCs</td>
-            <td>{{ requirements.uemc }} MCs</td>
-        </tr>
-        {% if (spec == 1) %}<tr><th>Specialisation Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (secondmajor == 1) %}<tr><th>2nd Major Requirements</th><td> MCs</td><td>40 MCs</td></tr>{% else %}{% endif %}
-        {% if (minorone  == 1) %}<tr><th>1st Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (minortwo  == 1) %}<tr><th>2nd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (minorthree  == 1) %}<tr><th>3rd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        <tr class="lastrow">
-            <th>Total</th>
-            <td> MCs</td>
-            <td>{{ requirements.totalmc }} MCs</td>
-        </tr>
-    </table>
+            <button type="submit" class="btn" value="create" name="btn">Create New Plan</button>
+            <button type="submit" class="btn" value="update" name="btn">Save / Update Plan</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
