@@ -52,31 +52,14 @@
         <footer class="footer">
             <div>
                 <nav class="bottomnav" id="bottomnav">
-                    {% if session["user_id"] == 1 %}
                     <ul>
                         <li class="link"><a href="https://github.com/YSSeah99/moduleplanner_python">Github</a></li>
                         <li class="link"><a href="/faq">FAQ</a></li>
                         <li class="link"><a href="/helpers">Help Us!</a></li>
                         <li class="link"><a href="/moduleform">Modules Not There?</a></li>
-                        <li class="link"><a href="/contribute">Helper's Page</a></li>
-                        <li class="link"><a href="/adminpage">Admin's Page</a></li>
+                        {% if (session["user_id"] and session["user_id"] < 500) %}<li class="link"><a href="/contribute">Helper's Page</a></li>{% else %}{% endif %}
+                        {% if (session["user_id"] == 1) %}<li class="link"><a href="/adminpage">Admin's Page</a></li>{% else %}{% endif %}
                     </ul>
-                    {% elif session["user_id"] %}
-                    <ul>
-                        <li class="link"><a href="https://github.com/YSSeah99/moduleplanner_python">Github</a></li>
-                        <li class="link"><a href="/faq">FAQ</a></li>
-                        <li class="link"><a href="/helpers">Help Us!</a></li>
-                        <li class="link"><a href="/moduleform">Modules Not There?</a></li>
-                        <li class="link"><a href="/contribute">Helper's Page</a></li>
-                    </ul>
-                    {% else %}
-                    <ul>
-                        <li class="link"><a href="https://github.com/YSSeah99/moduleplanner_python">Github</a></li>
-                        <li class="link"><a href="/faq">FAQ</a></li>
-                        <li class="link"><a href="/helpers">Help Us!</a></li>
-                        <li class="link"><a href="/moduleform">Modules Not There?</a></li>
-                    </ul>
-                    {% endif %}
                 </nav>
             </div><br><div>
                 <p class="info">

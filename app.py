@@ -152,9 +152,12 @@ def index():
 @app.route("/plan",methods=["GET","POST"])
 @load_plan_as_session
 def plan():
+    
     time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    b = session["user_id"]
-    return render_template("plan.html",time=time, b=b)
+    planID = session["user_id"] - 500
+    plan = db.execute("SELECT * FROM Plans WHERE id = ?", planID)
+    requirements = db.execute("SELECT * FROM Requirements WHERE degreeid = ?", plan[0]["degreename"])
+    return render_template("plan.html",time=time, plan=plan, requirements=requirements, planID = planID)
 
 
 @app.route("/helpers",methods=["GET","POST"])

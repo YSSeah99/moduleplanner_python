@@ -5,5 +5,49 @@
 {% endblock %}
 
 {% block main %}
-<h1>Hello, {{ b }}</h1>
+<h1>Degree Planner</h1>
+<p>Returning back to main page will "log out" your plan</p>
+<div class="infotable">
+    <table class="table">
+        {% for requirements in requirements %}
+        <tr>
+            <th>Summary of Requirements</th>
+            <th>Current</th>
+            <th>Target</th>
+        </tr>
+        <tr>
+            <th>University Requirements</th>
+            <td> MCs</td>
+            <td>{{ requirements.unimc }} MCs</td>
+        </tr>
+        <tr>
+            <th>Faculty Requirements</th>
+            <td> MCs</td>
+            <td>{{ requirements.facmc }} MCs</td>
+        </tr>
+        <tr>
+            <th>University Requirements</th>
+            <td> MCs</td>
+            <td>{{ requirements.majormc }} MCs</td>
+        </tr>
+        <tr>
+            <th>Unrestricted Elective Modules</th>
+            <td> MCs</td>
+            <td>{{ requirements.uemc }} MCs</td>
+        </tr>
+        {% for plan in plan %}
+        {% if (plan.spec == 1) %}<tr><th>Specialisation Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (plan.secondmajor == 1) %}<tr><th>2nd Major Requirements</th><td> MCs</td><td>40 MCs</td></tr>{% else %}{% endif %}
+        {% if (plan.minorone == 1) %}<tr><th>1st Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{{ plan.minorone }}{% endif %}
+        {% if (plan.minortwo == 1) %}<tr><th>2nd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (plan.minorthree == 1) %}<tr><th>3rd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% endfor %}
+        <tr class="lastrow">
+            <th>Total</th>
+            <td> MCs</td>
+            <td>{{ requirements.totalmc }} MCs</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

@@ -34,7 +34,7 @@
     </div>
 </div>
 <br/>
-{% if session["user_id"] %}
+{% if (session["user_id"] and session["user_id"] < 500) %}
 <div id="helpers" class="information">
     <h3> Hello, Helper! </h3>
     <p> Click <a href="/">here</a> to approve modules and click <a href="/logout">here</a> to logout! </p>
