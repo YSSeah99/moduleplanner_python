@@ -157,7 +157,148 @@ def plan():
     planID = session["user_id"] - 500
     plan = db.execute("SELECT * FROM Plans WHERE id = ?", planID)
     requirements = db.execute("SELECT * FROM Requirements WHERE degreeid = ?", plan[0]["degreename"])
-    return render_template("plan.html",time=time, plan=plan, requirements=requirements, planID = planID)
+    
+    # adds modules to Y1S1
+    if request.method == "POST" and (request.form["btn"] == "addoneone"):
+        
+        oneonemod = request.form.get("oneonemod")
+        if not oneonemod or not request.form.get("oneoneueqns") or not request.form.get("oneonegrade"):
+            flash("Please fill up the module code, U.E and grade in that row!", "error")
+            return redirect("/plan")
+        
+        # checks for duplicate values
+        
+        typeone = request.form.get("oneonetypeone")
+        typetwo = request.form.get("oneonetypetwo")
+        typethree = request.form.get("oneonetypethree")
+        
+        # all majors
+        if (typeone == "major" and typetwo == "major"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all second majors
+        if (typeone == "majortwo" and typetwo == "majortwo") or (typeone == "majortwo" and typethree == "majortwo") or (typetwo == "majortwo" and typethree == "majortwo") or (typeone == "majortwo" and typetwo == "majortwo" and typethree == "majortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorone
+        if (typeone == "minorone" and typetwo == "minorone") or (typeone == "minorone" and typethree == "minorone") or (typetwo == "minorone" and typethree == "minorone") or (typeone == "minorone" and typetwo == "minorone" and typethree == "minorone"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minortwo
+        if (typeone == "minortwo" and typetwo == "minortwo") or (typeone == "minortwo" and typethree == "minortwo") or (typetwo == "minortwo" and typethree == "minortwo") or (typeone == "minortwo" and typetwo == "minortwo" and typethree == "minortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorthree
+        if (typeone == "minorthree" and typetwo == "minorthree") or (typeone == "minorthree" and typethree == "minorthree") or (typetwo == "minorthree" and typethree == "minorthree") or (typeone == "minorthree" and typetwo == "minorthree" and typethree == "minorthree"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        ModOneOne = db.execute("SELECT * FROM Modules WHERE code = ? AND semone = ? AND approved = ?", oneonemod, 1, 1)
+        if len(ModOneOne) != 1:
+            flash("Invalid Module Code or Module Not Avaliable in Semester 1!", "error")
+            return redirect("/plan")
+        
+        elif ModOneOne:
+            
+            DuplicateOneOne = db.execute("SELECT * FROM yearonesemone WHERE modulecode = ?", ModOneOne[0]["code"])
+            
+            if len(DuplicateOneOne) == 1:
+                flash("Module already in plan!", "error")
+                return redirect("/plan")
+        
+        db.execute("INSERT INTO yearonesemone (planid, modulecode, typeone, typetwo, typethree, ue, grade) VALUES (?, ?, ?, ?, ?, ?, ?)", planID, ModOneOne[0]["code"], request.form.get("oneonetypeone"), request.form.get("oneonetypetwo"), request.form.get("oneonetypethree"), request.form.get("oneoneueqns"), request.form.get("oneonegrade"))
+        flash("Module successfully added to Y1S1!", "success")
+        return redirect("/plan")
+        
+    # removes module to Y1S1
+    elif request.method == "POST" and (request.form["btn"] == "removeoneone"):
+        oneonemod = request.form.get("code")
+        db.execute("DELETE FROM yearonesemone WHERE modulecode = ?", oneonemod)
+        flash("Module successfully removed from Y1S1!", "success")
+        return redirect("/plan")
+    
+    # adds modules to Y1S2
+    if request.method == "POST" and (request.form["btn"] == "addonetwo"):
+        
+        onetwomod = request.form.get("onetwomod")
+        if not onetwomod or not request.form.get("onetwoueqns") or not request.form.get("onetwograde"):
+            flash("Please fill up the module code, U.E and grade in that row!", "error")
+            return redirect("/plan")
+        
+        # checks for duplicate values
+        
+        typeone = request.form.get("onetwotypeone")
+        typetwo = request.form.get("onetwotypetwo")
+        typethree = request.form.get("onetwotypethree")
+        
+        # all majors
+        if (typeone == "major" and typetwo == "major"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all second majors
+        if (typeone == "majortwo" and typetwo == "majortwo") or (typeone == "majortwo" and typethree == "majortwo") or (typetwo == "majortwo" and typethree == "majortwo") or (typeone == "majortwo" and typetwo == "majortwo" and typethree == "majortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorone
+        if (typeone == "minorone" and typetwo == "minorone") or (typeone == "minorone" and typethree == "minorone") or (typetwo == "minorone" and typethree == "minorone") or (typeone == "minorone" and typetwo == "minorone" and typethree == "minorone"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minortwo
+        if (typeone == "minortwo" and typetwo == "minortwo") or (typeone == "minortwo" and typethree == "minortwo") or (typetwo == "minortwo" and typethree == "minortwo") or (typeone == "minortwo" and typetwo == "minortwo" and typethree == "minortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorthree
+        if (typeone == "minorthree" and typetwo == "minorthree") or (typeone == "minorthree" and typethree == "minorthree") or (typetwo == "minorthree" and typethree == "minorthree") or (typeone == "minorthree" and typetwo == "minorthree" and typethree == "minorthree"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        ModOneTwo = db.execute("SELECT * FROM Modules WHERE code = ? AND semtwo = ? AND approved = ?", onetwomod, 1, 1)
+        if len(ModOneTwo) != 1:
+            flash("Invalid Module Code or Module Not Avaliable in Semester 1!", "error")
+            return redirect("/plan")
+        
+        elif ModOneTwo:
+            
+            DuplicateOneTwo = db.execute("SELECT * FROM yearonesemtwo WHERE modulecode = ?", ModOneTwo[0]["code"])
+            
+            if len(DuplicateOneTwo) == 1:
+                flash("Module already in plan!", "error")
+                return redirect("/plan")
+        
+        db.execute("INSERT INTO yearonesemtwo (planid, modulecode, typeone, typetwo, typethree, ue, grade) VALUES (?, ?, ?, ?, ?, ?, ?)", planID, ModOneTwo[0]["code"], request.form.get("onetwotypeone"), request.form.get("onetwotypetwo"), request.form.get("onetwotypethree"), request.form.get("onetwoueqns"), request.form.get("onetwograde"))
+        flash("Module successfully added to Y1S2!", "success")
+        return redirect("/plan")
+    
+    # removes module to Y1S2
+    elif request.method == "POST" and (request.form["btn"] == "removeonetwo"):
+        onetwomod = request.form.get("code")
+        db.execute("DELETE FROM yearonesemtwo WHERE modulecode = ?", onetwomod)
+        flash("Module successfully removed from Y1S2!", "success")
+        return redirect("/plan")
+    
+    # Load year one sem one modules
+    yearonesemoneDB = db.execute("SELECT * FROM yearonesemone, Modules WHERE yearonesemone.planid = ? AND modules.code=yearonesemone.modulecode", planID) 
+    if len(yearonesemoneDB) >= 10:
+        yOnesOnemod = 0
+    else:
+        yOnesOnemod = 1
+        
+    # Load year one sem two modules
+    yearonesemtwoDB = db.execute("SELECT * FROM yearonesemtwo, Modules WHERE yearonesemtwo.planid = ? AND modules.code=yearonesemtwo.modulecode", planID) 
+    if len(yearonesemtwoDB) >= 10:
+        yOnesTwomod = 0
+    else:
+        yOnesTwomod = 1
+    
+    return render_template("plan.html",time=time, plan=plan, requirements=requirements, planID = planID, yOnesOnemod=yOnesOnemod, yearonesemone = yearonesemoneDB, yOnesTwomod=yOnesTwomod, yearonesemtwo = yearonesemtwoDB)
 
 
 @app.route("/helpers",methods=["GET","POST"])
