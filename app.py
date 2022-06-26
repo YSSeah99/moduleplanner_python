@@ -68,7 +68,7 @@ def index():
         planDB = db.execute("SELECT * FROM Plans")
         
         if not planname:
-            flash("Please enter your matriculatio number and NUSNET ID!", "error")
+            flash("Please enter your matriculation number and NUSNET ID!", "error")
             return redirect("/")
         
         # check if user has already has a plan (if does prompt error, else creates)
@@ -98,8 +98,10 @@ def index():
                     return redirect("/")
                 
                 degreeID = db.execute("SELECT id FROM Degrees WHERE degreename = ?", degreename)
-                db.execute("INSERT INTO Plans (hashname, year, degreename, spec, secondmajor, minorone, minorone, minorthree) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", generate_password_hash(planname), year, degreeID[0]["id"], spec, secondmajor, minorone, minortwo, minorthree)
-                planDB = db.execute("SELECT * FROM Plans WHERE id = ?", len(planDB))
+                db.execute("INSERT INTO Plans (hashname, year, degreename, spec, secondmajor, minorone, minortwo, minorthree) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", generate_password_hash(planname), year, degreeID[0]["id"], spec, secondmajor, minorone, minortwo, minorthree)
+                latest = db.execute("SELECT * FROM Plans")
+                planDB = db.execute("SELECT * FROM Plans WHERE id = ?", len(latest))
+                db.execute("INSERT INTO specialterms (planid) VALUES (?)", planDB[0]["id"])
                 flash("Plan successfully created!", "success")
                 session["user_id"] = int(planDB[0]["id"]) + 500
                 return redirect("/plan")
@@ -110,7 +112,7 @@ def index():
         planDB = db.execute("SELECT * FROM Plans")
         
         if not planname:
-            flash("Please enter your matriculatio number and NUSNET ID!", "error")
+            flash("Please enter your matriculation number and NUSNET ID!", "error")
             return redirect("/")
             
         if len(planDB)!= 0:
