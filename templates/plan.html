@@ -748,7 +748,7 @@
                 </td>
             </tr>
             {% endfor %}
-            {% if (yOnesThreemod == 1) %}
+            {% if (yTwosThreemod == 1) %}
             <tr>
                 <form method="post">
                     <td colspan="3"><input type="text" name="twothreemod" class="form-control" placeholder="Module Code"/></td>
@@ -821,6 +821,412 @@
     <br />
     <form method="post">
         <button type="submit" class="btn" value="stTworemove" name="btn">Remove Special Term for Year 2</button>
+    <form>
+{% endif %}
+<br /><hr />
+<!-- Year 3 Sem 1 -->
+<div class="yeartable">
+    <table class="table">
+        <tr>
+            <th colspan="9"> Year 3 Sem 1 </th>
+        </tr>
+        <tr>
+            <th>Module Code</th>
+            <th>Module Name</th>
+            <th>No. of MCs</th>
+            <th>Type 1</th>
+            <th>Type 2</th>
+            <th>Type 3</th>
+            <th>U.E. ?</th>
+            <th>Grade</th>
+            <th>Functions</th>
+        <tr>
+        {% for mod in yearthreesemone %}
+        <tr>
+            <td>{{ mod.modulecode }}</td>
+            <td>{{ mod.name }}</td>
+            <td>{{ mod.mc }}</td>
+            <td>
+                {% if (mod.typeone == None) %}-
+                {% elif (mod.typeone == "uni") %}University Requirement
+                {% elif (mod.typeone == "fac") %}Faculty Requirement
+                {% elif (mod.typeone == "major") %}Major Requirement
+                {% elif (mod.typeone == "majortwo") %}Second Major Requirement
+                {% elif (mod.typeone == "minorone") %}Minor (1) Requirement
+                {% elif (mod.typeone == "minortwo") %}Minor (2) Requirement
+                {% elif (mod.typeone == "minorthree") %}Minor (3) Requirement
+                {% endif %}
+            </td>
+            <td>
+                {% if (mod.typetwo == None) %}-
+                {% elif (mod.typetwo == "major") %}Major Requirement
+                {% elif (mod.typetwo == "spec") %}Specialisation Requirement
+                {% elif (mod.typetwo == "majortwo") %}Second Major Requirement
+                {% elif (mod.typetwo == "minorone") %}Minor (1) Requirement
+                {% elif (mod.typetwo == "minortwo") %}Minor (2) Requirement
+                {% elif (mod.typetwo == "minorthree") %}Minor (3) Requirement
+                {% endif %}
+            </td>
+            <td>
+                {% if (mod.typethree == None) %}-
+                {% elif (mod.typethree == "majortwo") %}Second Major Requirement
+                {% elif (mod.typethree == "minorone") %}Minor (1) Requirement
+                {% elif (mod.typethree == "minortwo") %}Minor (2) Requirement
+                {% elif (mod.typethree == "minorthree") %}Minor (3) Requirement
+                {% endif %}
+            </td>
+            <td>{% if (mod.ue == 1) %}Yes{% else %}No{% endif %}</td>
+            <td>{{ mod.grade }}</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="code" value={{ mod.modulecode }} />
+                    <button type="submit" class="btn" value="removethreeone" name="btn">Remove Module</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if (yThreesOnemod == 1) %}
+        <tr>
+            <form method="post">
+                <td colspan="3"><input type="text" name="threeonemod" class="form-control" placeholder="Module Code"/></td>
+                <td>
+                    <select name="threeonetypeone" class="form-select">
+                        <option value="">Type of Module</option>
+                        <option value="uni">University Requirement</option>
+                        <option value="fac">Faculty Requirement</option>
+                        <option value="major">Major Requirement</option>
+                        <option value="majortwo">2nd Major Requirement</option>
+                        <option value="minorone">Minor (1) Requirement</option>
+                        <option value="minortwo">Minor (2) Requirement</option>
+                        <option value="minorthree">Minor (3) Requirement</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threeonetypetwo" class="form-select">
+                        <option value="">Type of Module</option>
+                        <option value="major">Major Requirement</option>
+                        <option value="spec">Specialisation Requirement</option>
+                        <option value="majortwo">2nd Major Requirement</option>
+                        <option value="minorone">Minor (1) Requirement</option>
+                        <option value="minortwo">Minor (2) Requirement</option>
+                        <option value="minorthree">Minor (3) Requirement</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threeonetypethree" class="form-select">
+                        <option value="">Type of Module</option>
+                        <option value="majortwo">2nd Major Requirement</option>
+                        <option value="minorone">Minor (1) Requirement</option>
+                        <option value="minortwo">Minor (2) Requirement</option>
+                        <option value="minorthree">Minor (3) Requirement</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threeoneueqns" class="form-select">
+                        <option value="">Considered U.E?</option>
+                        <option value=1>Yes</option>
+                        <option value=0>No</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threeonegrade" class="form-select">
+                        <option value="">Grade</option>
+                        <option value="NIL">NIL</option>
+                        <option value="A+">A+</option>
+                        <option value="A">A</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B">B</option>
+                        <option value="B-">B-</option>
+                        <option value="C+">C+</option>
+                        <option value="C">C</option>
+                        <option value="D+">D+</option>
+                        <option value="D">D</option>
+                        <option value="F">F</option>
+                        <option value="S">S</option>
+                        <option value="U">U</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="submit" class="btn" value="addthreeone" name="btn">Add Module</button>
+                </td>
+            </form>
+        </tr>
+        {% else %}{% endif %}
+    </table>
+</div>
+<br />
+<!-- Year 3 Sem 2 -->
+<div class="yeartable">
+    <table class="table">
+        <tr>
+            <th colspan="9"> Year 3 Sem 2 </th>
+        </tr>
+        <tr>
+            <th>Module Code</th>
+            <th>Module Name</th>
+            <th>No. of MCs</th>
+            <th>Type 1</th>
+            <th>Type 2</th>
+            <th>Type 3</th>
+            <th>U.E. ?</th>
+            <th>Grade</th>
+            <th>Functions</th>
+        <tr>
+        {% for mod in yearthreesemtwo %}
+        <tr>
+            <td>{{ mod.modulecode }}</td>
+            <td>{{ mod.name }}</td>
+            <td>{{ mod.mc }}</td>
+            <td>
+                {% if (mod.typeone == None) %}-
+                {% elif (mod.typeone == "uni") %}University Requirement
+                {% elif (mod.typeone == "fac") %}Faculty Requirement
+                {% elif (mod.typeone == "major") %}Major Requirement
+                {% elif (mod.typeone == "majortwo") %}Second Major Requirement
+                {% elif (mod.typeone == "minorone") %}Minor (1) Requirement
+                {% elif (mod.typeone == "minortwo") %}Minor (2) Requirement
+                {% elif (mod.typeone == "minorthree") %}Minor (3) Requirement
+                {% endif %}
+            </td>
+            <td>
+                {% if (mod.typetwo == None) %}-
+                {% elif (mod.typetwo == "major") %}Major Requirement
+                {% elif (mod.typetwo == "spec") %}Specialisation Requirement
+                {% elif (mod.typetwo == "majortwo") %}Second Major Requirement
+                {% elif (mod.typetwo == "minorone") %}Minor (1) Requirement
+                {% elif (mod.typetwo == "minortwo") %}Minor (2) Requirement
+                {% elif (mod.typetwo == "minorthree") %}Minor (3) Requirement
+                {% endif %}
+            </td>
+            <td>
+                {% if (mod.typethree == None) %}-
+                {% elif (mod.typethree == "majortwo") %}Second Major Requirement
+                {% elif (mod.typethree == "minorone") %}Minor (1) Requirement
+                {% elif (mod.typethree == "minortwo") %}Minor (2) Requirement
+                {% elif (mod.typethree == "minorthree") %}Minor (3) Requirement
+                {% endif %}
+            </td>
+            <td>{% if (mod.ue == 1) %}Yes{% else %}No{% endif %}</td>
+            <td>{{ mod.grade }}</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="code" value={{ mod.modulecode }} />
+                    <button type="submit" class="btn" value="removethreetwo" name="btn">Remove Module</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if (yThreesTwomod == 1) %}
+        <tr>
+            <form method="post">
+                <td colspan="3"><input type="text" name="threetwomod" class="form-control" placeholder="Module Code"/></td>
+                <td>
+                    <select name="threetwotypeone" class="form-select">
+                        <option value="">Type of Module</option>
+                        <option value="uni">University Requirement</option>
+                        <option value="fac">Faculty Requirement</option>
+                        <option value="major">Major Requirement</option>
+                        <option value="majortwo">2nd Major Requirement</option>
+                        <option value="minorone">Minor (1) Requirement</option>
+                        <option value="minortwo">Minor (2) Requirement</option>
+                        <option value="minorthree">Minor (3) Requirement</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threetwotypetwo" class="form-select">
+                        <option value="">Type of Module</option>
+                        <option value="major">Major Requirement</option>
+                        <option value="spec">Specialisation Requirement</option>
+                        <option value="majortwo">2nd Major Requirement</option>
+                        <option value="minorone">Minor (1) Requirement</option>
+                        <option value="minortwo">Minor (2) Requirement</option>
+                        <option value="minorthree">Minor (3) Requirement</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threetwotypethree" class="form-select">
+                        <option value="">Type of Module</option>
+                        <option value="majortwo">2nd Major Requirement</option>
+                        <option value="minorone">Minor (1) Requirement</option>
+                        <option value="minortwo">Minor (2) Requirement</option>
+                        <option value="minorthree">Minor (3) Requirement</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threetwoueqns" class="form-select">
+                        <option value="">Considered U.E?</option>
+                        <option value=1>Yes</option>
+                        <option value=0>No</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="threetwograde" class="form-select">
+                        <option value="">Grade</option>
+                        <option value="NIL">NIL</option>
+                        <option value="A+">A+</option>
+                        <option value="A">A</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B">B</option>
+                        <option value="B-">B-</option>
+                        <option value="C+">C+</option>
+                        <option value="C">C</option>
+                        <option value="D+">D+</option>
+                        <option value="D">D</option>
+                        <option value="F">F</option>
+                        <option value="S">S</option>
+                        <option value="U">U</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="submit" class="btn" value="addthreetwo" name="btn">Add Module</button>
+                </td>
+            </form>
+        </tr>
+        {% else %}{% endif %}
+    </table>
+</div>
+<br />
+<!-- Year 3 Special Term -->
+{% if stThree != 1 %}
+<form method="post">
+    <button type="submit" class="btn" value="stThreeadd" name="btn">Add Special Term for Year 3</button>
+    <form>
+{% else %}
+    <div class="yeartable">
+        <table class="table">
+            <tr>
+                <th colspan="9"> Year 3 Special Term </th>
+            </tr>
+            <tr>
+                <th>Module Code</th>
+                <th>Module Name</th>
+                <th>No. of MCs</th>
+                <th>Type 1</th>
+                <th>Type 2</th>
+                <th>Type 3</th>
+                <th>U.E. ?</th>
+                <th>Grade</th>
+                <th>Functions</th>
+            <tr>
+            {% for mod in yearthreeST %}
+            <tr>
+                <td>{{ mod.modulecode }}</td>
+                <td>{{ mod.name }}</td>
+                <td>{{ mod.mc }}</td>
+                <td>
+                    {% if (mod.typeone == None) %}-
+                    {% elif (mod.typeone == "uni") %}University Requirement
+                    {% elif (mod.typeone == "fac") %}Faculty Requirement
+                    {% elif (mod.typeone == "major") %}Major Requirement
+                    {% elif (mod.typeone == "majortwo") %}Second Major Requirement
+                    {% elif (mod.typeone == "minorone") %}Minor (1) Requirement
+                    {% elif (mod.typeone == "minortwo") %}Minor (2) Requirement
+                    {% elif (mod.typeone == "minorthree") %}Minor (3) Requirement
+                    {% endif %}
+                </td>
+                <td>
+                    {% if (mod.typetwo == None) %}-
+                    {% elif (mod.typetwo == "major") %}Major Requirement
+                    {% elif (mod.typetwo == "spec") %}Specialisation Requirement
+                    {% elif (mod.typetwo == "majortwo") %}Second Major Requirement
+                    {% elif (mod.typetwo == "minorone") %}Minor (1) Requirement
+                    {% elif (mod.typetwo == "minortwo") %}Minor (2) Requirement
+                    {% elif (mod.typetwo == "minorthree") %}Minor (3) Requirement
+                    {% endif %}
+                </td>
+                <td>
+                    {% if (mod.typethree == None) %}-
+                    {% elif (mod.typethree == "majortwo") %}Second Major Requirement
+                    {% elif (mod.typethree == "minorone") %}Minor (1) Requirement
+                    {% elif (mod.typethree == "minortwo") %}Minor (2) Requirement
+                    {% elif (mod.typethree == "minorthree") %}Minor (3) Requirement
+                    {% endif %}
+                </td>
+                <td>{% if (mod.ue == 1) %}Yes{% else %}No{% endif %}</td>
+                <td>{{ mod.grade }}</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="code" value={{ mod.modulecode }} />
+                        <button type="submit" class="btn" value="removethreethree" name="btn">Remove Module</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if (yThreesThreemod == 1) %}
+            <tr>
+                <form method="post">
+                    <td colspan="3"><input type="text" name="threethreemod" class="form-control" placeholder="Module Code"/></td>
+                    <td>
+                        <select name="threethreetypeone" class="form-select">
+                            <option value="">Type of Module</option>
+                            <option value="uni">University Requirement</option>
+                            <option value="fac">Faculty Requirement</option>
+                            <option value="major">Major Requirement</option>
+                            <option value="majortwo">2nd Major Requirement</option>
+                            <option value="minorone">Minor (1) Requirement</option>
+                            <option value="minortwo">Minor (2) Requirement</option>
+                            <option value="minorthree">Minor (3) Requirement</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="threethreetypetwo" class="form-select">
+                            <option value="">Type of Module</option>
+                            <option value="major">Major Requirement</option>
+                            <option value="spec">Specialisation Requirement</option>
+                            <option value="majortwo">2nd Major Requirement</option>
+                            <option value="minorone">Minor (1) Requirement</option>
+                            <option value="minortwo">Minor (2) Requirement</option>
+                            <option value="minorthree">Minor (3) Requirement</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="threethreetypethree" class="form-select">
+                            <option value="">Type of Module</option>
+                            <option value="majortwo">2nd Major Requirement</option>
+                            <option value="minorone">Minor (1) Requirement</option>
+                            <option value="minortwo">Minor (2) Requirement</option>
+                            <option value="minorthree">Minor (3) Requirement</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="threethreeueqns" class="form-select">
+                            <option value="">Considered U.E?</option>
+                            <option value=1>Yes</option>
+                            <option value=0>No</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="threethreegrade" class="form-select">
+                            <option value="">Grade</option>
+                            <option value="NIL">NIL</option>
+                            <option value="A+">A+</option>
+                            <option value="A">A</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B">B</option>
+                            <option value="B-">B-</option>
+                            <option value="C+">C+</option>
+                            <option value="C">C</option>
+                            <option value="D+">D+</option>
+                            <option value="D">D</option>
+                            <option value="F">F</option>
+                            <option value="S">S</option>
+                            <option value="U">U</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn" value="addthreethree" name="btn">Add Module</button>
+                    </td>
+                </form>
+            </tr>
+            {% else %}{% endif %}
+        </table>
+    </div>
+    <br />
+    <form method="post">
+        <button type="submit" class="btn" value="stThreeremove" name="btn">Remove Special Term for Year 3</button>
     <form>
 {% endif %}
 <br /><hr />
