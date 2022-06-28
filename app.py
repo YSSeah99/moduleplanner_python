@@ -225,7 +225,7 @@ def plan():
         return redirect("/plan")
     
     # adds modules to Y1S2
-    if request.method == "POST" and (request.form["btn"] == "addonetwo"):
+    elif request.method == "POST" and (request.form["btn"] == "addonetwo"):
         
         onetwomod = request.form.get("onetwomod")
         if not onetwomod or not request.form.get("onetwoueqns") or not request.form.get("onetwograde"):
@@ -294,7 +294,7 @@ def plan():
         return redirect("/plan")
     
     # adds modules to Y1ST
-    if request.method == "POST" and (request.form["btn"] == "addonethree"):
+    elif request.method == "POST" and (request.form["btn"] == "addonethree"):
         
         onethreemod = request.form.get("onethreemod")
         if not onethreemod or not request.form.get("onethreeueqns") or not request.form.get("onethreegrade"):
@@ -362,6 +362,207 @@ def plan():
         flash("Special Term Removed For Year 1 successfully!", "success")
         return redirect("/plan")
     
+    # adds modules to Y2S1
+    elif request.method == "POST" and (request.form["btn"] == "addtwoone"):
+        
+        twoonemod = request.form.get("twoonemod")
+        if not twoonemod or not request.form.get("twooneueqns") or not request.form.get("twoonegrade"):
+            flash("Please fill up the module code, U.E and grade in that row!", "error")
+            return redirect("/plan")
+        
+        # checks for duplicate values
+        
+        typeone = request.form.get("twoonetypeone")
+        typetwo = request.form.get("twoonetypetwo")
+        typethree = request.form.get("twoonetypethree")
+        
+        # all majors
+        if (typeone == "major" and typetwo == "major"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all second majors
+        if (typeone == "majortwo" and typetwo == "majortwo") or (typeone == "majortwo" and typethree == "majortwo") or (typetwo == "majortwo" and typethree == "majortwo") or (typeone == "majortwo" and typetwo == "majortwo" and typethree == "majortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorone
+        if (typeone == "minorone" and typetwo == "minorone") or (typeone == "minorone" and typethree == "minorone") or (typetwo == "minorone" and typethree == "minorone") or (typeone == "minorone" and typetwo == "minorone" and typethree == "minorone"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minortwo
+        if (typeone == "minortwo" and typetwo == "minortwo") or (typeone == "minortwo" and typethree == "minortwo") or (typetwo == "minortwo" and typethree == "minortwo") or (typeone == "minortwo" and typetwo == "minortwo" and typethree == "minortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorthree
+        if (typeone == "minorthree" and typetwo == "minorthree") or (typeone == "minorthree" and typethree == "minorthree") or (typetwo == "minorthree" and typethree == "minorthree") or (typeone == "minorthree" and typetwo == "minorthree" and typethree == "minorthree"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        ModTwoOne = db.execute("SELECT * FROM Modules WHERE code = ? AND semone = ? AND approved = ?", twoonemod, 1, 1)
+        if len(ModTwoOne) != 1:
+            flash("Invalid Module Code or Module Not Avaliable in Semester 1!", "error")
+            return redirect("/plan")
+        
+        elif ModTwoOne:
+            
+            DuplicateTwoOne = db.execute("SELECT * FROM yeartwosemone WHERE modulecode = ?", ModTwoOne[0]["code"])
+            
+            if len(DuplicateTwoOne) == 1:
+                flash("Module already in plan!", "error")
+                return redirect("/plan")
+        
+        db.execute("INSERT INTO yeartwosemone (planid, modulecode, typeone, typetwo, typethree, ue, grade) VALUES (?, ?, ?, ?, ?, ?, ?)", planID, ModTwoOne[0]["code"], typeone, typetwo, typethree, request.form.get("twooneueqns"), request.form.get("twoonegrade"))
+        flash("Module successfully added to Y2S1!", "success")
+        return redirect("/plan")
+        
+    # removes module from Y2S1
+    elif request.method == "POST" and (request.form["btn"] == "removetwoone"):
+        twoonemod = request.form.get("code")
+        db.execute("DELETE FROM yearonesemone WHERE modulecode = ?", twoonemod)
+        flash("Module successfully removed from Y2S1!", "success")
+        return redirect("/plan")
+    
+    # adds modules to Y2S2
+    elif request.method == "POST" and (request.form["btn"] == "addtwotwo"):
+        
+        twotwomod = request.form.get("twotwomod")
+        if not twotwomod or not request.form.get("twotwoueqns") or not request.form.get("twotwograde"):
+            flash("Please fill up the module code, U.E and grade in that row!", "error")
+            return redirect("/plan")
+        
+        # checks for duplicate values
+        
+        typeone = request.form.get("twotwotypeone")
+        typetwo = request.form.get("twotwotypetwo")
+        typethree = request.form.get("twotwotypethree")
+        
+        # all majors
+        if (typeone == "major" and typetwo == "major"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all second majors
+        if (typeone == "majortwo" and typetwo == "majortwo") or (typeone == "majortwo" and typethree == "majortwo") or (typetwo == "majortwo" and typethree == "majortwo") or (typeone == "majortwo" and typetwo == "majortwo" and typethree == "majortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorone
+        if (typeone == "minorone" and typetwo == "minorone") or (typeone == "minorone" and typethree == "minorone") or (typetwo == "minorone" and typethree == "minorone") or (typeone == "minorone" and typetwo == "minorone" and typethree == "minorone"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minortwo
+        if (typeone == "minortwo" and typetwo == "minortwo") or (typeone == "minortwo" and typethree == "minortwo") or (typetwo == "minortwo" and typethree == "minortwo") or (typeone == "minortwo" and typetwo == "minortwo" and typethree == "minortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorthree
+        if (typeone == "minorthree" and typetwo == "minorthree") or (typeone == "minorthree" and typethree == "minorthree") or (typetwo == "minorthree" and typethree == "minorthree") or (typeone == "minorthree" and typetwo == "minorthree" and typethree == "minorthree"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        ModTwoTwo = db.execute("SELECT * FROM Modules WHERE code = ? AND semtwo = ? AND approved = ?", twotwomod, 1, 1)
+        if len(ModTwoTwo) != 1:
+            flash("Invalid Module Code or Module Not Avaliable in Semester 2!", "error")
+            return redirect("/plan")
+        
+        elif ModTwoTwo:
+            
+            DuplicateTwoTwo = db.execute("SELECT * FROM yeartwosemtwo WHERE modulecode = ?", ModTwoTwo[0]["code"])
+            
+            if len(DuplicateTwoTwo) == 1:
+                flash("Module already in plan!", "error")
+                return redirect("/plan")
+        
+        db.execute("INSERT INTO yeartwosemtwo (planid, modulecode, typeone, typetwo, typethree, ue, grade) VALUES (?, ?, ?, ?, ?, ?, ?)", planID, ModTwoTwo[0]["code"], typeone, typetwo, typethree, request.form.get("twotwoueqns"), request.form.get("twotwograde"))
+        flash("Module successfully added to Y2S2!", "success")
+        return redirect("/plan")
+    
+    # removes module from Y2S2
+    elif request.method == "POST" and (request.form["btn"] == "removetwotwo"):
+        twotwomod = request.form.get("code")
+        db.execute("DELETE FROM yeartwosemtwo WHERE modulecode = ?", twotwomod)
+        flash("Module successfully removed from Y2S2!", "success")
+        return redirect("/plan")
+    
+    # adds specialterm (Y2)
+    elif request.method == "POST" and (request.form["btn"] == "stTwoadd"):
+        db.execute("UPDATE specialterms SET yeartwo = 1 WHERE planid = ?", planID)
+        flash("Special Term Added For Year 2 successfully!", "success")
+        return redirect("/plan")
+    
+    # adds modules to Y2ST
+    elif request.method == "POST" and (request.form["btn"] == "addtwothree"):
+        
+        twothreemod = request.form.get("twothreemod")
+        if not twothreemod or not request.form.get("twothreeueqns") or not request.form.get("twothreegrade"):
+            flash("Please fill up the module code, U.E and grade in that row!", "error")
+            return redirect("/plan")
+        
+        # checks for duplicate values
+        
+        typeone = request.form.get("twothreetypeone")
+        typetwo = request.form.get("twothreetypetwo")
+        typethree = request.form.get("twothreetypethree")
+        
+        # all majors
+        if (typeone == "major" and typetwo == "major"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all second majors
+        if (typeone == "majortwo" and typetwo == "majortwo") or (typeone == "majortwo" and typethree == "majortwo") or (typetwo == "majortwo" and typethree == "majortwo") or (typeone == "majortwo" and typetwo == "majortwo" and typethree == "majortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorone
+        if (typeone == "minorone" and typetwo == "minorone") or (typeone == "minorone" and typethree == "minorone") or (typetwo == "minorone" and typethree == "minorone") or (typeone == "minorone" and typetwo == "minorone" and typethree == "minorone"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minortwo
+        if (typeone == "minortwo" and typetwo == "minortwo") or (typeone == "minortwo" and typethree == "minortwo") or (typetwo == "minortwo" and typethree == "minortwo") or (typeone == "minortwo" and typetwo == "minortwo" and typethree == "minortwo"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        # all minorthree
+        if (typeone == "minorthree" and typetwo == "minorthree") or (typeone == "minorthree" and typethree == "minorthree") or (typetwo == "minorthree" and typethree == "minorthree") or (typeone == "minorthree" and typetwo == "minorthree" and typethree == "minorthree"):
+            flash("Please dont select the same types!", "error")
+            return redirect("/plan")
+        
+        ModTwoThree = db.execute("SELECT * FROM Modules WHERE code = ? AND semthree = ? OR semfour = ? AND approved = ?", twothreemod, 1, 1, 1)
+        if len(ModTwoThree) != 1:
+            flash("Invalid Module Code or Module Not Avaliable in Special Term!", "error")
+            return redirect("/plan")
+        
+        elif ModTwoThree:
+            
+            DuplicateTwoThree = db.execute("SELECT * FROM yeartwospecialterm WHERE modulecode = ?", ModTwoThree[0]["code"])
+            
+            if len(DuplicateTwoThree) == 1:
+                flash("Module already in plan!", "error")
+                return redirect("/plan")
+        
+        db.execute("INSERT INTO yeartwospecialterm (planid, modulecode, typeone, typetwo, typethree, ue, grade) VALUES (?, ?, ?, ?, ?, ?, ?)", planID, ModTwoThree[0]["code"], typeone, typetwo, typethree, request.form.get("twothreeueqns"), request.form.get("twothreegrade"))
+        flash("Module successfully added to Y2ST!", "success")
+        return redirect("/plan")
+    
+    # removes modules from Y2ST
+    elif request.method == "POST" and (request.form["btn"] == "removetwothree"):
+        twothreemod = request.form.get("code")
+        db.execute("DELETE FROM yeartwospecialterm WHERE modulecode = ?", twothreemod)
+        flash("Module successfully removed from Y2 Special Term!", "success")
+        return redirect("/plan")
+    
+    # removes specialterm (yeartwo)
+    elif request.method == "POST" and (request.form["btn"] == "stTworemove"):
+        db.execute("UPDATE specialterms SET yeartwo = 0 WHERE planid = ?", planID)
+        flash("Special Term Removed For Year 2 successfully!", "success")
+        return redirect("/plan")
+    
     # Load year one sem one modules
     yearonesemoneDB = db.execute("SELECT * FROM yearonesemone, Modules WHERE yearonesemone.planid = ? AND modules.code=yearonesemone.modulecode", planID) 
     if len(yearonesemoneDB) >= 10:
@@ -382,6 +583,27 @@ def plan():
         yOnesThreemod = 0
     else:
         yOnesThreemod = 1
+        
+    # Load year two sem one modules
+    yeartwosemoneDB = db.execute("SELECT * FROM yeartwosemone, Modules WHERE yeartwosemone.planid = ? AND modules.code=yeartwosemone.modulecode", planID) 
+    if len(yeartwosemoneDB) >= 10:
+        yTwosOnemod = 0
+    else:
+        yTwosOnemod = 1
+        
+    # Load year two sem two modules
+    yeartwosemtwoDB = db.execute("SELECT * FROM yeartwosemtwo, Modules WHERE yeartwosemtwo.planid = ? AND modules.code=yeartwosemtwo.modulecode", planID) 
+    if len(yeartwosemtwoDB) >= 10:
+        yTwosTwomod = 0
+    else:
+        yTwosTwomod = 1
+    
+    # Loads year two specialterm
+    yeartwoSTDB = db.execute("SELECT * FROM yeartwospecialterm, Modules WHERE yeartwospecialterm.planid = ? AND modules.code=yeartwospecialterm.modulecode", planID)    
+    if len(yeartwoSTDB) >= 5:
+        yTwosThreemod = 0
+    else:
+        yTwosThreemod = 1
     
     # calculations shit
     cap, sumc, score, totalmc, unimc, facmc, majormc, specmc, majortwomc, minoronemc, minortwomc, minorthreemc, uemc = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -465,12 +687,99 @@ def plan():
             if mod["typeone"] == "minorthree" or mod["typetwo"] == "minorthree" or mod["typethree"] == "minorthree": 
                 minorthreemc += int(mod["mc"]) 
         
+    # for Y2S1
+    for mod in yeartwosemoneDB:
+        totalmc += int(mod["mc"])
+        if mod["grade"] == "S" or mod["grade"] == "U" or mod["grade"] == "NIL":
+            sumc += int(mod["mc"])
+        else:
+            score += GradeScore(mod["grade"], int(mod["mc"]))
+        if mod["ue"] == "1": 
+            uemc += int(mod["mc"])   
+        if mod["typeone"] == "uni": 
+            unimc += int(mod["mc"]) 
+        if mod["typeone"] == "fac": 
+            facmc += int(mod["mc"])
+        if mod["typetwo"] == "spec": 
+            specmc += int(mod["mc"])
+        if mod["typeone"] == "major" or mod["typetwo"] == "major": 
+            majormc += int(mod["mc"])
+        if mod["typeone"] == "majortwo" or mod["typetwo"] == "majortwo" or mod["typethree"] == "majortwo": 
+            majortwomc += int(mod["mc"])
+        if mod["typeone"] == "minorone" or mod["typetwo"] == "minorone" or mod["typethree"] == "minorone": 
+            minoronemc += int(mod["mc"]) 
+        if mod["typeone"] == "minortwo" or mod["typetwo"] == "minortwo" or mod["typethree"] == "minortwo": 
+            minortwomc += int(mod["mc"]) 
+        if mod["typeone"] == "minorthree" or mod["typetwo"] == "minorthree" or mod["typethree"] == "minorthree": 
+            minorthreemc += int(mod["mc"])
+            
+    # for Y2S2
+    for mod in yeartwosemtwoDB:
+        totalmc += int(mod["mc"])
+        if mod["grade"] == "S" or mod["grade"] == "U" or mod["grade"] == "NIL":
+            sumc += int(mod["mc"])
+        else:
+            score += GradeScore(mod["grade"], int(mod["mc"]))
+        if mod["ue"] == "1": 
+            uemc += int(mod["mc"])   
+        if mod["typeone"] == "uni": 
+            unimc += int(mod["mc"]) 
+        if mod["typeone"] == "fac": 
+            facmc += int(mod["mc"])
+        if mod["typetwo"] == "spec": 
+            specmc += int(mod["mc"])
+        if mod["typeone"] == "major" or mod["typetwo"] == "major": 
+            majormc += int(mod["mc"])
+        if mod["typeone"] == "majortwo" or mod["typetwo"] == "majortwo" or mod["typethree"] == "majortwo": 
+            majortwomc += int(mod["mc"])
+        if mod["typeone"] == "minorone" or mod["typetwo"] == "minorone" or mod["typethree"] == "minorone": 
+            minoronemc += int(mod["mc"]) 
+        if mod["typeone"] == "minortwo" or mod["typetwo"] == "minortwo" or mod["typethree"] == "minortwo": 
+            minortwomc += int(mod["mc"]) 
+        if mod["typeone"] == "minorthree" or mod["typetwo"] == "minorthree" or mod["typethree"] == "minorthree": 
+            minorthreemc += int(mod["mc"])  
+    
+    # for Y2ST
+    if len(yeartwoSTDB) != 0:
+        for mod in yeartwoSTDB:
+            totalmc += int(mod["mc"])
+            if mod["grade"] == "S" or mod["grade"] == "U" or mod["grade"] == "NIL":
+                sumc += int(mod["mc"])
+            else:
+                score += GradeScore(mod["grade"], int(mod["mc"]))
+            if mod["ue"] == "1": 
+                uemc += int(mod["mc"])   
+            if mod["typeone"] == "uni": 
+                unimc += int(mod["mc"]) 
+            if mod["typeone"] == "fac": 
+                facmc += int(mod["mc"])
+            if mod["typetwo"] == "spec": 
+                specmc += int(mod["mc"])
+            if mod["typeone"] == "major" or mod["typetwo"] == "major": 
+                majormc += int(mod["mc"])
+            if mod["typeone"] == "majortwo" or mod["typetwo"] == "majortwo" or mod["typethree"] == "majortwo": 
+                majortwomc += int(mod["mc"])
+            if mod["typeone"] == "minorone" or mod["typetwo"] == "minorone" or mod["typethree"] == "minorone": 
+                minoronemc += int(mod["mc"]) 
+            if mod["typeone"] == "minortwo" or mod["typetwo"] == "minortwo" or mod["typethree"] == "minortwo": 
+                minortwomc += int(mod["mc"]) 
+            if mod["typeone"] == "minorthree" or mod["typetwo"] == "minorthree" or mod["typethree"] == "minorthree": 
+                minorthreemc += int(mod["mc"]) 
+          
+             
     try:      
-        cap = round((score/(totalmc - sumc)),3)
+        cap = round((score/(totalmc - sumc)),2)
     except ZeroDivisionError:
-        cap = round(0.00,3)
+        cap = round(0.00,2)
         
-    return render_template("plan.html",time=time, plan=plan, requirements=requirements, planID = planID, yOnesOnemod=yOnesOnemod, yearonesemone = yearonesemoneDB, yOnesTwomod=yOnesTwomod, yearonesemtwo = yearonesemtwoDB, stOne=stOne , stTwo=stTwo, stThree=stThree, stFour=stFour, yearoneST=yearoneSTDB, yOnesThreemod=yOnesThreemod, cap=cap , totalmc=totalmc, unimc=unimc, facmc=facmc, majormc=majormc, specmc=specmc, majortwomc=majortwomc, minoronemc=minoronemc, minortwomc=minortwomc, minorthreemc=minorthreemc, uemc=uemc)
+    return render_template("plan.html",time=time, plan=plan, requirements=requirements, planID = planID, 
+                           yOnesOnemod=yOnesOnemod, yearonesemone = yearonesemoneDB, yOnesTwomod=yOnesTwomod, 
+                           yearonesemtwo = yearonesemtwoDB, yearoneST=yearoneSTDB, yOnesThreemod=yOnesThreemod, 
+                           stOne=stOne , stTwo=stTwo, stThree=stThree, stFour=stFour, cap=cap , totalmc=totalmc, 
+                           unimc=unimc, facmc=facmc, majormc=majormc, specmc=specmc, majortwomc=majortwomc, 
+                           minoronemc=minoronemc, minortwomc=minortwomc, minorthreemc=minorthreemc, uemc=uemc, 
+                           yTwosOnemod=yTwosOnemod, yeartwosemone = yeartwosemoneDB, yTwosTwomod=yTwosTwomod, 
+                           yeartwosemtwo = yeartwosemtwoDB, yeartwoST=yeartwoSTDB, yTwosThreemod=yTwosThreemod, )
 
 
 @app.route("/helpers",methods=["GET","POST"])
