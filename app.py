@@ -845,6 +845,25 @@ def logout():
     flash("Logout successful","info")
     return redirect("/helpers")
 
+@app.route("/settings")
+def settings():
+
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("settings.html", time=time)
+
+@app.route("/faq")
+def faq():
+
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("faq.html", time=time)
+
+
+@app.route("/about")
+def about():
+
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return render_template("about.html", time=time)
+
 
 @app.route("/helperform",methods=["GET","POST"])
 def helperform():
