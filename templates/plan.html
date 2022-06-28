@@ -140,6 +140,7 @@
         </tr>
         {% else %}{% endif %}
     </table>
+</div>
 <br />
 <!-- Year 1 Sem 2 -->
 <div class="yeartable">
@@ -271,13 +272,14 @@
         </tr>
         {% else %}{% endif %}
     </table>
+</div>
 <br />
 <!-- Year 1 Special Term -->
 {% if stOne != 1 %}
 <form method="post">
     <button type="submit" class="btn" value="stOneadd" name="btn">Add Special Term for Year 1</button>
     <form>
-    {% else %}
+{% else %}
     <div class="yeartable">
         <table class="table">
             <tr>
