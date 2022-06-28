@@ -8,7 +8,9 @@
 <h1>Degree Planner</h1>
 <p>Returning back to main page will "log out" your plan</p>
 <p>To edit your modules, you have to remove and re-add the module back, unfortunately.</p>
+<p>If you had gotten "IC" as your grade, just put "NIL" instead.</p>
 <br />
+<!-- Year 1 Sem 1 -->
 <div class="yeartable">
     <table class="table">
         <tr>
@@ -126,6 +128,7 @@
                         <option value="C">C</option>
                         <option value="D+">D+</option>
                         <option value="D">D</option>
+                        <option value="F">F</option>
                         <option value="S">S</option>
                         <option value="U">U</option>
                     </select>
@@ -137,8 +140,8 @@
         </tr>
         {% else %}{% endif %}
     </table>
-    <br />
-    <br />
+<br />
+<!-- Year 1 Sem 2 -->
 <div class="yeartable">
     <table class="table">
         <tr>
@@ -256,6 +259,7 @@
                         <option value="C">C</option>
                         <option value="D+">D+</option>
                         <option value="D">D</option>
+                        <option value="F">F</option>
                         <option value="S">S</option>
                         <option value="U">U</option>
                     </select>
@@ -267,8 +271,150 @@
         </tr>
         {% else %}{% endif %}
     </table>
+<br />
+<!-- Year 1 Special Term -->
+{% if stOne != 1 %}
+<form method="post">
+    <button type="submit" class="btn" value="stOneadd" name="btn">Add Special Term for Year 1</button>
+    <form>
+    {% else %}
+    <div class="yeartable">
+        <table class="table">
+            <tr>
+                <th colspan="9"> Year 1 Special Term </th>
+            </tr>
+            <tr>
+                <th>Module Code</th>
+                <th>Module Name</th>
+                <th>No. of MCs</th>
+                <th>Type 1</th>
+                <th>Type 2</th>
+                <th>Type 3</th>
+                <th>U.E. ?</th>
+                <th>Grade</th>
+                <th>Functions</th>
+            <tr>
+            {% for mod in yearoneST %}
+            <tr>
+                <td>{{ mod.modulecode }}</td>
+                <td>{{ mod.name }}</td>
+                <td>{{ mod.mc }}</td>
+                <td>
+                    {% if (mod.typeone == None) %}-
+                    {% elif (mod.typeone == "uni") %}University Requirement
+                    {% elif (mod.typeone == "fac") %}Faculty Requirement
+                    {% elif (mod.typeone == "major") %}Major Requirement
+                    {% elif (mod.typeone == "majortwo") %}Second Major Requirement
+                    {% elif (mod.typeone == "minorone") %}Minor (1) Requirement
+                    {% elif (mod.typeone == "minortwo") %}Minor (2) Requirement
+                    {% elif (mod.typeone == "minorthree") %}Minor (3) Requirement
+                    {% endif %}
+                </td>
+                <td>
+                    {% if (mod.typetwo == None) %}-
+                    {% elif (mod.typetwo == "major") %}Major Requirement
+                    {% elif (mod.typetwo == "spec") %}Specialisation Requirement
+                    {% elif (mod.typetwo == "majortwo") %}Second Major Requirement
+                    {% elif (mod.typetwo == "minorone") %}Minor (1) Requirement
+                    {% elif (mod.typetwo == "minortwo") %}Minor (2) Requirement
+                    {% elif (mod.typetwo == "minorthree") %}Minor (3) Requirement
+                    {% endif %}
+                </td>
+                <td>
+                    {% if (mod.typethree == None) %}-
+                    {% elif (mod.typethree == "majortwo") %}Second Major Requirement
+                    {% elif (mod.typethree == "minorone") %}Minor (1) Requirement
+                    {% elif (mod.typethree == "minortwo") %}Minor (2) Requirement
+                    {% elif (mod.typethree == "minorthree") %}Minor (3) Requirement
+                    {% endif %}
+                </td>
+                <td>{% if (mod.ue == 1) %}Yes{% else %}No{% endif %}</td>
+                <td>{{ mod.grade }}</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="code" value={{ mod.modulecode }} />
+                        <button type="submit" class="btn" value="removeonethree" name="btn">Remove Module</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if (yOnesThreemod == 1) %}
+            <tr>
+                <form method="post">
+                    <td colspan="3"><input type="text" name="onethreemod" class="form-control" placeholder="Module Code"/></td>
+                    <td>
+                        <select name="onethreetypeone" class="form-select">
+                            <option value="">Type of Module</option>
+                            <option value="uni">University Requirement</option>
+                            <option value="fac">Faculty Requirement</option>
+                            <option value="major">Major Requirement</option>
+                            <option value="majortwo">2nd Major Requirement</option>
+                            <option value="minorone">Minor (1) Requirement</option>
+                            <option value="minortwo">Minor (2) Requirement</option>
+                            <option value="minorthree">Minor (3) Requirement</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="onethreetypetwo" class="form-select">
+                            <option value="">Type of Module</option>
+                            <option value="major">Major Requirement</option>
+                            <option value="spec">Specialisation Requirement</option>
+                            <option value="majortwo">2nd Major Requirement</option>
+                            <option value="minorone">Minor (1) Requirement</option>
+                            <option value="minortwo">Minor (2) Requirement</option>
+                            <option value="minorthree">Minor (3) Requirement</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="onethreetypethree" class="form-select">
+                            <option value="">Type of Module</option>
+                            <option value="majortwo">2nd Major Requirement</option>
+                            <option value="minorone">Minor (1) Requirement</option>
+                            <option value="minortwo">Minor (2) Requirement</option>
+                            <option value="minorthree">Minor (3) Requirement</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="onethreeueqns" class="form-select">
+                            <option value="">Considered U.E?</option>
+                            <option value=1>Yes</option>
+                            <option value=0>No</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="onethreegrade" class="form-select">
+                            <option value="">Grade</option>
+                            <option value="NIL">NIL</option>
+                            <option value="A+">A+</option>
+                            <option value="A">A</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B">B</option>
+                            <option value="B-">B-</option>
+                            <option value="C+">C+</option>
+                            <option value="C">C</option>
+                            <option value="D+">D+</option>
+                            <option value="D">D</option>
+                            <option value="F">F</option>
+                            <option value="S">S</option>
+                            <option value="U">U</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn" value="addonethree" name="btn">Add Module</button>
+                    </td>
+                </form>
+            </tr>
+            {% else %}{% endif %}
+        </table>
+    </div>
     <br />
-    <button type="submit" class="btn" value="addonetwo" name="btn">Add Special Term for Year 1</button>
+    <form method="post">
+        <button type="submit" class="btn" value="stOneremove" name="btn">Remove Special Term for Year 1</button>
+    <form>
+{% endif %}
+<br />
+
 <br />
 <br />
 </div>
@@ -282,37 +428,43 @@
         </tr>
         <tr>
             <th>University Requirements</th>
-            <td> MCs</td>
+            <td>{{ unimc }} MCs</td>
             <td>{{ requirements.unimc }} MCs</td>
         </tr>
         <tr>
             <th>Faculty Requirements</th>
-            <td> MCs</td>
+            <td>{{ facmc }} MCs</td>
             <td>{{ requirements.facmc }} MCs</td>
         </tr>
         <tr>
-            <th>University Requirements</th>
-            <td> MCs</td>
+            <th>Major Requirements</th>
+            <td>{{ majormc }} MCs</td>
             <td>{{ requirements.majormc }} MCs</td>
         </tr>
         <tr>
             <th>Unrestricted Elective Modules</th>
-            <td> MCs</td>
+            <td>{{ uemc }} MCs</td>
             <td>{{ requirements.uemc }} MCs</td>
         </tr>
         {% for plan in plan %}
-        {% if (plan.spec == 1) %}<tr><th>Specialisation Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (plan.secondmajor == 1) %}<tr><th>2nd Major Requirements</th><td> MCs</td><td>40 MCs</td></tr>{% else %}{% endif %}
-        {% if (plan.minorone == 1) %}<tr><th>1st Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{{ plan.minorone }}{% endif %}
-        {% if (plan.minortwo == 1) %}<tr><th>2nd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
-        {% if (plan.minorthree == 1) %}<tr><th>3rd Minor Requirements</th><td> MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (plan.spec == 1) %}<tr><th>Specialisation Requirements</th><td>{{ specmc }} MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (plan.secondmajor == 1) %}<tr><th>2nd Major Requirements</th><td>{{ majortwomc }} MCs</td><td>40 MCs</td></tr>{% else %}{% endif %}
+        {% if (plan.minorone == 1) %}<tr><th>1st Minor Requirements</th><td>{{ minoronemc }} MCs</td><td>20 MCs</td></tr>{% else %}{{ plan.minorone }}{% endif %}
+        {% if (plan.minortwo == 1) %}<tr><th>2nd Minor Requirements</th><td>{{ minortwomc }} MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
+        {% if (plan.minorthree == 1) %}<tr><th>3rd Minor Requirements</th><td>{{ minorthreemc }} MCs</td><td>20 MCs</td></tr>{% else %}{% endif %}
         {% endfor %}
         <tr class="lastrow">
             <th>Total</th>
-            <td> MCs</td>
+            <td>{{ totalmc }} MCs</td>
             <td>{{ requirements.totalmc }} MCs</td>
         </tr>
         {% endfor %}
+    </table>
+    <table class="table">
+        <tr>
+            <th>C.A.P</th>
+            <td>{{ cap }}</td>
+        </tr>
     </table>
 </div>
 {% endblock %}
