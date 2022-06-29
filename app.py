@@ -16,6 +16,7 @@ from secret import secretpassword
 app = Flask(__name__)
 app.secret_key = secretpassword
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+#app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres://suzrhvqkuoxsxx:c91b8f69ccbaaeae2f0f00b82d810b871951495de183622da342a06846ebe6d3@ec2-44-206-11-200.compute-1.amazonaws.com:5432/d2dlfdj7086r02'
 SESSION_COOKIE_SECURE = True
 REMEMBER_COOKIE_SECURE = True
 db = SQL("sqlite:///planner.db")
